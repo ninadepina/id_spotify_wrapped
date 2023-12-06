@@ -27,7 +27,7 @@
     };
 
     onMount(() => {
-        main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
+        if (main) main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
         interval = setInterval(() => {
             switchArticle();
             clearInterval(interval);
@@ -36,13 +36,13 @@
     });
 
     afterUpdate(() => {
-        main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
+        if (main) main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
         clearInterval(interval);
         interval = setInterval(switchArticle, calculateInterval());
     });
 
     onDestroy(() => {
-        main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
+        if (main) main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
         clearInterval(interval);
     });
 

@@ -4,10 +4,12 @@
     let outerDiv;
 
     onMount(() => {
-        outerDiv.style.display = 'none';
-        setTimeout(() => {
-            outerDiv.style.display = 'flex';
-        }, 7000);
+        if (outerDiv) {
+            outerDiv.style.display = 'none';
+            setTimeout(() => {
+                outerDiv.style.display = 'flex';
+            }, 7000);
+        }
     });
 </script>
 

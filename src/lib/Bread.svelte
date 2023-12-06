@@ -4,13 +4,15 @@
     let outerDiv;
 
     onMount(() => {
-        outerDiv.style.display = 'none';
-        setTimeout(() => {
-            outerDiv.style.display = 'flex';
-        }, 3700);
-        setTimeout(() => {
+        if (outerDiv) {
             outerDiv.style.display = 'none';
-        }, 7000);
+            setTimeout(() => {
+                outerDiv.style.display = 'flex';
+            }, 3700);
+            setTimeout(() => {
+                outerDiv.style.display = 'none';
+            }, 7000);
+        }
     });
 
     let images = [

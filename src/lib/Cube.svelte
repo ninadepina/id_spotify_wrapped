@@ -7,11 +7,13 @@
     let outerSpan;
 
     onMount(() => {
-        outerSpan.style.display = 'inline-block';
-        setTimeout(() => {
-            outerSpanVisible = false;
-            outerSpan.style.display = 'none';
-        }, 3700);
+        if (outerSpan) {
+            outerSpan.style.display = 'inline-block';
+            setTimeout(() => {
+                outerSpanVisible = false;
+                outerSpan.style.display = 'none';
+            }, 3700);
+        }
     });
 </script>
 
