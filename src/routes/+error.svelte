@@ -1,11 +1,7 @@
-<svelte:head>
-    <title>Something is wrong</title>
-</svelte:head>
+<script>
+    import { onMount } from 'svelte';
 
-<div class="error">
-
-</div>
-
-<style>
-
-</style>
+    onMount(() => {
+        window.location.href = "/";
+    });
+</script>
