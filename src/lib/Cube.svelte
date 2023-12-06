@@ -47,17 +47,12 @@
     }
 
     img {
-        width: 18em;
-        left: 50%;
+        width: 17em;
+        left: 51%;
         transform: translateX(-50%);
     }
-    @media (max-width: 500px) {
-        img {
-            left: 51%;
-        }
-    }
     img:first-of-type {
-        top: 48.6%;
+        top: 48.3%;
 
         animation-name: img1, img1Move;
         animation-duration: 3s, 0.7s;
@@ -102,7 +97,7 @@
     }
 
     img:last-of-type {
-        top: 25.8%;
+        top: 25.3%;
 
         animation-name: img2, img2Move;
         animation-duration: 3s, 0.7s;
