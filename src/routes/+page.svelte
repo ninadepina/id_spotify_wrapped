@@ -1,47 +1,40 @@
 <script>
     import { onMount, afterUpdate, onDestroy } from 'svelte';
+
+    // article 3
     import Cube from '$lib/Cube.svelte';
+    import Bread from '$lib/Bread.svelte';
+    import Genres from '$lib/Genres.svelte';
 
-    let currentArticle = 3;
+    let currentArticle = 1;
+    let interval;
 
-    // const switchArticle = () => {
-    //     currentArticle = (currentArticle % 3) + 1;
-    // };
+    const switchArticle = () => {
+        currentArticle = (currentArticle % 3) + 1;
+    };
 
-    // let interval;
+    const intervalTime = { 1: 7080, 2: 8000, 3: 15000 };
 
-    // onMount(() => {
-    //     interval = setInterval(switchArticle, 8000);
-    // });
+    const calculateInterval = () => {
+        return intervalTime[currentArticle] || 8000;
+    };
 
-    // afterUpdate(() => {
-    //     clearInterval(interval);
-    //     interval = setInterval(switchArticle, 8000);
-    // });
+    onMount(() => {
+        interval = setInterval(() => {
+            switchArticle();
+            clearInterval(interval);
+            interval = setInterval(switchArticle, calculateInterval());
+        }, calculateInterval());
+    });
 
-    // onDestroy(() => {
-    //     clearInterval(interval);
-    // });
+    afterUpdate(() => {
+        clearInterval(interval);
+        interval = setInterval(switchArticle, calculateInterval());
+    });
 
-    let images = [
-        'bread2.png',
-        'bread6.png',
-        'bread3.png',
-        'bread4.png',
-        'bread5.png',
-        'bread2.png',
-        'bread6.png',
-        'bread3.png',
-        'bread4.png',
-        'bread5.png',
-        'bread3.png'
-    ];
-
-    $: animatedImages = images.map((image, index) => ({
-        src: image,
-        style: `animation-delay: ${index * 0.3}s`,
-        key: `${image}-${index}`
-    }));
+    onDestroy(() => {
+        clearInterval(interval);
+    });
 </script>
 
 <svelte:head>
@@ -109,11 +102,8 @@
     {#if currentArticle === 3}
         <article id="genres" key="genres">
             <Cube />
-            <!-- <div class="slider">
-                {#each animatedImages as { src, style, key }}
-                    <img {src} alt="" {style} {key} />
-                {/each}
-            </div> -->
+            <Bread />
+            <Genres />
         </article>
     {/if}
 </section>
@@ -280,7 +270,6 @@
         animation-duration: 1s, 1s;
         animation-delay: 0s, 7s;
         animation-timing-function: forwards, forwards;
-        animation-timing-function: forwards, liforwardsnear;
     }
 
     @keyframes drawPathFlower {
@@ -533,26 +522,5 @@
     #genres {
         position: relative;
         background-color: var(--color-genres);
-    }
-
-    #genres .slider {
-        position: relative;
-        height: 100%;
-    }
-
-    #genres .slider img {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 18em;
-        animation: showBread 0.3s;
-        opacity: 0;
-    }
-
-    @keyframes showBread {
-        to {
-            opacity: 1;
-        }
     }
 </style>

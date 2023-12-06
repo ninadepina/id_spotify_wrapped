@@ -1,21 +1,40 @@
 <script>
+    import { onMount } from 'svelte';
+
     export let numCubes = 5;
+
+    let outerSpanVisible = true;
+    let outerSpan;
+
+    onMount(() => {
+        outerSpan.style.display = 'inline-block';
+        setTimeout(() => {
+            outerSpanVisible = false;
+            outerSpan.style.display = 'none';
+        }, 3700);
+    });
 </script>
 
-<span>
-    <img src="bread.png" alt="" />
-    {#each Array(numCubes) as _, i}
-        <span class="scene" key={i}>
-            <span class="cube">
-                <span class="cube__face cube__face--front" />
-                <span class="cube__face cube__face--right" />
+{#if outerSpanVisible}
+    <span id="wrapper" bind:this={outerSpan}>
+        <img src="bread.png" alt="" />
+        {#each Array(numCubes) as _, i}
+            <span class="scene" key={i}>
+                <span class="cube">
+                    <span class="cube__face cube__face--front" />
+                    <span class="cube__face cube__face--right" />
+                </span>
             </span>
-        </span>
-    {/each}
-    <img src="bread.png" alt="" />
-</span>
+        {/each}
+        <img src="bread.png" alt="" />
+    </span>
+{/if}
 
 <style>
+    #wrapper {
+        display: none;
+    }
+
     span.scene,
     img {
         position: absolute;
