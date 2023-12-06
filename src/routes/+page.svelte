@@ -1,6 +1,9 @@
 <script>
     import { onMount, afterUpdate, onDestroy } from 'svelte';
 
+    // effects
+    import Rect from '$lib/Rect.svelte';
+
     // article 3
     import Cube from '$lib/Cube.svelte';
     import Bread from '$lib/Bread.svelte';
@@ -9,7 +12,8 @@
     const articleColors = {
         1: '--color-intro',
         2: '--color-taste',
-        3: '--color-genres'
+        3: '--color-genres',
+        4: '--color-minutes'
     };
 
     let main;
@@ -17,14 +21,14 @@
     let forwards;
 
     let currentArticle = 1;
-    let amountArticles = 3;
+    let amountArticles = 4;
     let interval;
+
+    const intervalTime = { 1: 8000, 2: 8000, 3: 15000, 4: 8000 };
 
     const switchArticle = () => {
         currentArticle = (currentArticle % amountArticles) + 1;
     };
-
-    const intervalTime = { 1: 8000, 2: 8000, 3: 15000 };
 
     const calculateInterval = () => {
         return intervalTime[currentArticle] || 8000;
@@ -136,7 +140,7 @@
 
         {#if currentArticle === 1}
             <article id="intro" key="intro">
-                <span class="rect" />
+                <Rect />
                 <span class="flower">
                     <svg viewBox="0 0 1230 1102" fill="none">
                         <path
@@ -201,6 +205,39 @@
                 <Cube />
                 <Bread />
                 <Genres />
+            </article>
+        {/if}
+
+        {#if currentArticle === 4}
+            <article id="minutes" key="minutes">
+                <Rect />
+                <span class="flower">
+                    <svg viewBox="0 0 1230 1102" fill="none">
+                        <path
+                            d="M585.946 565.138C518.446 391.971 401.446 41.838 473.447 26.6381C611.446 -2.49498 625.446 364.305 656.446 542.638C681.113 413.471 879.473 89.2286 1059.95 279.638C1114.44 337.138 915.945 494.638 790.946 635.638C923.446 590.638 1191.65 551.938 1204.45 757.138C1217.25 962.338 934.113 859.638 790.946 782.638C877.279 830.971 1033.35 949.338 966.946 1036.14C883.946 1144.64 636.946 1020.14 611.446 856.638C615.613 920.805 607.946 1046.54 543.946 1036.14C406.445 1013.79 470.28 811.805 473.447 706.138C349.613 779.971 87.8461 883.338 31.4461 706.138C-24.9539 528.938 302.613 570.305 473.447 613.138C334.779 594.971 -22.1146 493.184 60.4453 424.138C255.945 260.638 411.779 473.305 585.946 565.138Z"
+                            stroke="#62F551"
+                            stroke-width="50"
+                            stroke-linejoin="round"
+                        />
+                    </svg>
+                </span>
+                <span class="line">
+                    <img src="line.png" alt="" />
+                </span>
+                <span class="line">
+                    <img src="line.png" alt="" />
+                </span>
+                <span class="amoebe">
+                    <img src="amoebe.png" alt="" />
+                </span>
+
+                <div>
+                    <h3>Time is a construct, but we kept track anyway</h3>
+                </div>
+                <div>
+                    <h3>You all listened for xxxxxxxx minutes.</h3>
+                    <p>That's <strong>xxx</strong> days nonstop.</p>
+                </div>
             </article>
         {/if}
     </section>
@@ -318,127 +355,44 @@
         overflow: hidden;
     }
 
+    article > span {
+        position: absolute;
+    }
+
     #intro {
         position: relative;
         background-color: var(--color-intro);
     }
 
-    #intro > span,
-    #taste > span,
-    #genres > span {
-        position: absolute;
-    }
-
-    /* rectangle */
-    #intro .rect {
-        top: 0;
-        left: -20%;
-        width: 100px;
-        height: 180px;
-        background: rgb(255, 255, 255);
-        background: linear-gradient(
-            227deg,
-            #ffffff,
-            #245cff,
-            #63ff46,
-            #ffffff,
-            #245cff,
-            #63ff46,
-            #ffffff,
-            #245cff,
-            #63ff46,
-            #ffffff,
-            #245cff,
-            #63ff46,
-            #ffffff,
-            #245cff,
-            #63ff46,
-            #ffffff,
-            #245cff,
-            #63ff46,
-            #ffffff,
-            #245cff,
-            #63ff46,
-            #ffffff,
-            #245cff,
-            #63ff46,
-            #ffffff,
-            #245cff,
-            #63ff46,
-            #ffffff,
-            #245cff,
-            #63ff46,
-            #ffffff,
-            #245cff,
-            #63ff46,
-            #ffffff,
-            #245cff,
-            #63ff46,
-            #ffffff,
-            #245cff,
-            #63ff46,
-            #ffffff,
-            #245cff,
-            #63ff46,
-            #ffffff,
-            #245cff,
-            #63ff46,
-            #ffffff,
-            #245cff,
-            #63ff46,
-            #ffffff,
-            #245cff,
-            #63ff46,
-            #ffffff,
-            #245cff,
-            #63ff46
-        );
-        background-size: 1000% 1000%;
-        animation: gradient 8s linear;
-    }
-
-    @keyframes gradient {
-        0% {
-            left: -20%;
-            background-position: 100% 50%;
-        }
-        5%,
-        95% {
-            left: 0;
-        }
-        100% {
-            left: -20%;
-            background-position: 0% 50%;
-        }
-    }
-
     /* line */
-    #intro .line {
+    .line {
         width: 25em;
     }
-    #intro span:nth-of-type(3) {
+    #intro span:nth-of-type(2),
+    #minutes span:nth-of-type(2) {
         left: -28%;
-        bottom: -2%;
+        bottom: -5%;
     }
-    #intro span:nth-of-type(4) {
+    #intro span:nth-of-type(3),
+    #minutes span:nth-of-type(3) {
         right: -8%;
         top: -4%;
         transform: rotate(208deg) scaleX(-1);
         width: 20em;
     }
 
-    #intro .line img {
+    .line img {
         width: 100%;
     }
 
     /* amoebe */
-    #intro .amoebe {
+    .amoebe {
         top: -10%;
         left: 5%;
         width: 16em;
     }
 
-    #intro .amoebe img {
+    .amoebe img {
         width: 100%;
         animation: zoom 1s ease infinite alternate;
     }
@@ -453,13 +407,13 @@
     }
 
     /* flower */
-    #intro .flower {
+    .flower {
         right: -10%;
         bottom: -5%;
         width: 16em;
     }
 
-    #intro .flower svg path {
+    .flower svg path {
         stroke-dasharray: 6800;
         stroke-dashoffset: 0;
 
@@ -483,7 +437,8 @@
         }
     }
 
-    #intro div {
+    #intro div,
+    #minutes div {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -491,8 +446,8 @@
     }
 
     /* first text */
-    #intro > div:first-of-type h2,
-    #intro > div:first-of-type img,
+    #intro > div:nth-of-type(2) h2,
+    #intro > div:nth-of-type(2) img,
     #intro > div:last-of-type h3,
     #intro > div:last-of-type p {
         position: absolute;
@@ -513,7 +468,7 @@
         font-size: 1.2em;
     }
 
-    #intro > div:first-of-type img {
+    #intro > div:nth-of-type(2) img {
         top: 25%;
         width: 8em;
         animation: slideIntroOther 4s ease-in-out;
@@ -728,5 +683,100 @@
     }
     #genres .rainbow2 img {
         width: 100%;
+    }
+
+    #minutes {
+        position: relative;
+        background-color: var(--color-minutes);
+    }
+
+    #minutes h3,
+    #minutes > div:last-of-type p {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+    }
+
+    #minutes h3 {
+        top: 16%;
+        width: 300px;
+        font-size: 1.8em;
+        line-height: 1em;
+        text-align: center;
+    }
+
+    #minutes > div:nth-of-type(2) h3 {
+        width: 350px;
+        animation: slideMinutesHeadingThree 3.5s ease-in-out;
+    }
+
+    #minutes > div:last-of-type h3 {
+        animation: slideMinutesHeadingThree2 4.5s ease-in-out;
+        animation-delay: 3.5s;
+    }
+
+    #minutes > div:last-of-type p {
+        top: 20%;
+        max-width: 225px;
+        font-size: 1em;
+        text-align: center;
+        white-space: nowrap;
+        animation: slideMinutesOther 3.5s ease-in-out;
+        animation-delay: 4.5s;
+    }
+    #minutes > div:last-of-type p strong {
+        letter-spacing: 1.2px;
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: var(--text-color-dark);
+    }
+
+    @keyframes slideMinutesHeadingThree {
+        0% {
+            top: 70%;
+            opacity: 0;
+        }
+        20%, 80% {
+            top: 45%;
+            opacity: 1;
+        }
+        100% {
+            top: 16%;
+            opacity: 0;
+        }
+    }
+    @keyframes slideMinutesHeadingThree2 {
+        0% {
+            top: 70%;
+            opacity: 0;
+        }
+        20% {
+            top: 50%;
+            opacity: 1;
+        }
+        40%,
+        80% {
+            top: 43%;
+            opacity: 1;
+        }
+        100% {
+            top: 16%;
+            opacity: 0;
+        }
+    }
+    @keyframes slideMinutesOther {
+        0% {
+            top: 75%;
+            opacity: 0;
+        }
+        20%,
+        80% {
+            top: 53%;
+            opacity: 1;
+        }
+        100% {
+            top: 25%;
+            opacity: 0;
+        }
     }
 </style>

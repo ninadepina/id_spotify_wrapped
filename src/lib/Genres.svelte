@@ -430,7 +430,7 @@
     }
     #genres .showGenres div > p {
         position: relative;
-        font-size: 1.4em;
+        font-size: 1.1em;
         text-align: center;
         color: var(--text-color-light);
         opacity: 1;
