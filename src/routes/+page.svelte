@@ -6,8 +6,15 @@
     import Bread from '$lib/Bread.svelte';
     import Genres from '$lib/Genres.svelte';
 
+    const articleColors = {
+        1: '--color-intro',
+        2: '--color-taste',
+        3: '--color-genres'
+    };
+
     let currentArticle = 1;
     let interval;
+    let main;
 
     const switchArticle = () => {
         currentArticle = (currentArticle % 3) + 1;
@@ -20,6 +27,7 @@
     };
 
     onMount(() => {
+        main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
         interval = setInterval(() => {
             switchArticle();
             clearInterval(interval);
@@ -28,11 +36,13 @@
     });
 
     afterUpdate(() => {
+        main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
         clearInterval(interval);
         interval = setInterval(switchArticle, calculateInterval());
     });
 
     onDestroy(() => {
+        main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
         clearInterval(interval);
     });
 </script>
@@ -41,74 +51,130 @@
     <title>ID Spotify Wrapped</title>
 </svelte:head>
 
-<section id="wrapped">
-    {#if currentArticle === 1}
-        <article id="intro" key="intro">
-            <span class="rect" />
-            <span class="flower">
-                <svg viewBox="0 0 1230 1102" fill="none">
-                    <path
-                        d="M585.946 565.138C518.446 391.971 401.446 41.838 473.447 26.6381C611.446 -2.49498 625.446 364.305 656.446 542.638C681.113 413.471 879.473 89.2286 1059.95 279.638C1114.44 337.138 915.945 494.638 790.946 635.638C923.446 590.638 1191.65 551.938 1204.45 757.138C1217.25 962.338 934.113 859.638 790.946 782.638C877.279 830.971 1033.35 949.338 966.946 1036.14C883.946 1144.64 636.946 1020.14 611.446 856.638C615.613 920.805 607.946 1046.54 543.946 1036.14C406.445 1013.79 470.28 811.805 473.447 706.138C349.613 779.971 87.8461 883.338 31.4461 706.138C-24.9539 528.938 302.613 570.305 473.447 613.138C334.779 594.971 -22.1146 493.184 60.4453 424.138C255.945 260.638 411.779 473.305 585.946 565.138Z"
-                        stroke="#62F551"
-                        stroke-width="50"
-                        stroke-linejoin="round"
-                    />
-                </svg>
-            </span>
-            <span class="line">
-                <img src="line.png" alt="" />
-            </span>
-            <span class="line">
-                <img src="line.png" alt="" />
-            </span>
-            <span class="amoebe">
-                <img src="amoebe.png" alt="" />
-            </span>
-
-            <div>
-                <h2><span>2023</span> Wrapped</h2>
-                <img src="spotify.png" alt="Spotify logo" />
-            </div>
+<main bind:this={main}>
+    <section id="wrapped">
+        <header>
+            <img src="spotify2.png" alt="" />
             <div>
                 <h3>Hello you</h3>
                 <p>It's Wrapped time. Ready? Let's do this.</p>
             </div>
-        </article>
-    {/if}
-    {#if currentArticle === 2}
-        <article id="taste" key="taste">
-            <span class="conic">
-                <span />
-            </span>
-            <span class="rainbow">
-                <img src="rainbow.png" alt="" />
-            </span>
-            <span class="squiggle">
-                <svg viewBox="0 0 1331 805" fill="none">
-                    <path
-                        d="M40 320L320 99.5L188.5 392L498 256.5L239.5 765L1291 40L947.5 765"
-                        stroke="#62F551"
-                        stroke-width="80"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    />
-                </svg>
-            </span>
+        </header>
+        {#if currentArticle === 1}
+            <article id="intro" key="intro">
+                <span class="rect" />
+                <span class="flower">
+                    <svg viewBox="0 0 1230 1102" fill="none">
+                        <path
+                            d="M585.946 565.138C518.446 391.971 401.446 41.838 473.447 26.6381C611.446 -2.49498 625.446 364.305 656.446 542.638C681.113 413.471 879.473 89.2286 1059.95 279.638C1114.44 337.138 915.945 494.638 790.946 635.638C923.446 590.638 1191.65 551.938 1204.45 757.138C1217.25 962.338 934.113 859.638 790.946 782.638C877.279 830.971 1033.35 949.338 966.946 1036.14C883.946 1144.64 636.946 1020.14 611.446 856.638C615.613 920.805 607.946 1046.54 543.946 1036.14C406.445 1013.79 470.28 811.805 473.447 706.138C349.613 779.971 87.8461 883.338 31.4461 706.138C-24.9539 528.938 302.613 570.305 473.447 613.138C334.779 594.971 -22.1146 493.184 60.4453 424.138C255.945 260.638 411.779 473.305 585.946 565.138Z"
+                            stroke="#62F551"
+                            stroke-width="50"
+                            stroke-linejoin="round"
+                        />
+                    </svg>
+                </span>
+                <span class="line">
+                    <img src="line.png" alt="" />
+                </span>
+                <span class="line">
+                    <img src="line.png" alt="" />
+                </span>
+                <span class="amoebe">
+                    <img src="amoebe.png" alt="" />
+                </span>
 
-            <h2><span>2023</span> was a feast for our ears</h2>
-            <h2>How did our tastes stack up?</h2>
-        </article>
-    {/if}
-    {#if currentArticle === 3}
-        <article id="genres" key="genres">
-            <Cube />
-            <Bread />
-            <Genres />
-        </article>
-    {/if}
-</section>
+                <div>
+                    <h2><span>2023</span> Wrapped</h2>
+                    <img src="spotify.png" alt="Spotify logo" />
+                </div>
+                <div>
+                    <h3>Hello you</h3>
+                    <p>It's Wrapped time. Ready? Let's do this.</p>
+                </div>
+            </article>
+        {/if}
+        {#if currentArticle === 2}
+            <article id="taste" key="taste">
+                <span class="conic">
+                    <span />
+                </span>
+                <span class="rainbow">
+                    <img src="rainbow.png" alt="" />
+                </span>
+                <span class="squiggle">
+                    <svg viewBox="0 0 1331 805" fill="none">
+                        <path
+                            d="M40 320L320 99.5L188.5 392L498 256.5L239.5 765L1291 40L947.5 765"
+                            stroke="#62F551"
+                            stroke-width="80"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+                    </svg>
+                </span>
+
+                <h2><span>2023</span> was a feast for our ears</h2>
+                <h2>How did our tastes stack up?</h2>
+            </article>
+        {/if}
+        {#if currentArticle === 3}
+            <article id="genres" key="genres">
+                <span class="rainbow2">
+                    <img src="rainbow2.png" alt="" />
+                </span>
+                <Cube />
+                <Bread />
+                <Genres />
+            </article>
+        {/if}
+    </section>
+</main>
 
 <style>
+    header {
+        position: fixed;
+        top: 0;
+        left: 50%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        max-width: 430px;
+        padding: 1em;
+        background: linear-gradient(
+            180deg,
+            rgba(0, 0, 0, 0.3) 0%,
+            rgba(0, 0, 0, 0) 100%
+        );
+        transform: translateX(-50%);
+        z-index: 9999;
+    }
+
+    header > img {
+        width: 6em;
+    }
+
+    header > div {
+        display: flex;
+        gap: 1em;
+    }
+
+    header button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 2.5em;
+        height: 2.5em;
+        padding: 0.25em;
+        background-color: #0d0020a8;
+        border: none;
+        border-radius: 50%;
+    }
+
+    header button img {
+        width: 75%;
+    }
+
     #wrapped {
         font-family: var(--font-family);
     }
@@ -522,5 +588,14 @@
     #genres {
         position: relative;
         background-color: var(--color-genres);
+    }
+
+    #genres .rainbow2 {
+        left: -10%;
+        right: -24%;
+        bottom: -12%;
+    }
+    #genres .rainbow2 img {
+        width: 100%;
     }
 </style>

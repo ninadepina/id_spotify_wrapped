@@ -201,7 +201,7 @@
         align-items: center;
     }
     .showGenres {
-        justify-content: space-around;
+        gap: 10%;
     }
 
     .showGenres > div > img {
