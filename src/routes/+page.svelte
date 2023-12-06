@@ -12,12 +12,16 @@
         3: '--color-genres'
     };
 
-    let currentArticle = 1;
-    let interval;
     let main;
+    let backwards;
+    let forwards;
+
+    let currentArticle = 1;
+    let amountArticles = 3;
+    let interval;
 
     const switchArticle = () => {
-        currentArticle = (currentArticle % 3) + 1;
+        currentArticle = (currentArticle % amountArticles) + 1;
     };
 
     const intervalTime = { 1: 7080, 2: 8000, 3: 15000 };
@@ -26,24 +30,55 @@
         return intervalTime[currentArticle] || 8000;
     };
 
+    const handleClickForwards = () => {
+        if (currentArticle < amountArticles) {
+            switchArticle();
+            clearInterval(interval);
+            interval = setInterval(switchArticle, calculateInterval());
+        }
+    };
+
+    const handleClickBackwards = () => {
+        if (currentArticle > 1) {
+            currentArticle = ((currentArticle - 2 + 3) % 3) + 1;
+            clearInterval(interval);
+            interval = setInterval(switchArticle, calculateInterval());
+        }
+    };
+
     onMount(() => {
-        if (main) main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
         interval = setInterval(() => {
             switchArticle();
             clearInterval(interval);
             interval = setInterval(switchArticle, calculateInterval());
         }, calculateInterval());
+
+        if (main) {
+            main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
+            forwards.addEventListener('click', handleClickForwards);
+            backwards.addEventListener('click', handleClickBackwards);
+        }
     });
 
     afterUpdate(() => {
-        if (main) main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
         clearInterval(interval);
         interval = setInterval(switchArticle, calculateInterval());
+
+        if (main) {
+            main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
+            forwards.addEventListener('click', handleClickForwards);
+            backwards.addEventListener('click', handleClickBackwards);
+        }
     });
 
     onDestroy(() => {
-        if (main) main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
         clearInterval(interval);
+
+        if (main) {
+            main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
+            forwards.addEventListener('click', handleClickForwards);
+            backwards.addEventListener('click', handleClickBackwards);
+        }
     });
 
     let isPlaying = false;
@@ -63,6 +98,10 @@
 </svelte:head>
 
 <main bind:this={main}>
+    <div id="clicker">
+        <div id="backwards" bind:this={backwards} />
+        <div id="forwards" bind:this={forwards} />
+    </div>
     <section id="wrapped">
         <header>
             <img src="spotify2.png" alt="" />
@@ -188,6 +227,22 @@
 
     header button img {
         width: 75%;
+    }
+
+    #clicker {
+        position: fixed;
+        inset: 0;
+        left: 0;
+        display: flex;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        z-index: 999;
+    }
+
+    #clicker > div {
+        width: 50%;
+        height: 100%;
     }
 
     #wrapped {
