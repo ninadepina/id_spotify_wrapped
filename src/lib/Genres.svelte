@@ -404,7 +404,7 @@
         bottom: -0.1em;
     }
     #genres .showGenres .layers > span svg.cheese {
-        bottom: -0.1em;
+        top: -0.1em;
     }
     #genres .showGenres .layers > span svg.tomato {
         top: -0.2em;
