@@ -433,7 +433,7 @@
 
     /* amoebe */
     #intro .amoebe {
-        top: -6%;
+        top: -10%;
         left: 5%;
         width: 16em;
     }
@@ -502,10 +502,10 @@
     }
 
     #intro h2 {
-        top: 13%;
+        top: 11%;
         font-size: 2.8em;
         white-space: nowrap;
-        line-height: 42px;
+        line-height: 12px;
         color: var(--text-color-dark);
         animation: slideIntroHeadingTwo 4s ease-in-out;
     }
@@ -514,8 +514,8 @@
     }
 
     #intro > div:first-of-type img {
-        top: 20%;
-        width: 10em;
+        top: 25%;
+        width: 8em;
         animation: slideIntroOther 4s ease-in-out;
     }
 
@@ -547,7 +547,7 @@
             opacity: 1;
         }
         100% {
-            top: 13%;
+            top: 11%;
             opacity: 0;
         }
     }
@@ -581,7 +581,7 @@
             opacity: 1;
         }
         100% {
-            top: 20%;
+            top: 25%;
             opacity: 0;
         }
     }

@@ -203,7 +203,7 @@
         align-items: center;
     }
     .showGenres {
-        gap: 10%;
+        gap: 5%;
     }
 
     .showGenres > div > img {
@@ -421,7 +421,7 @@
 
     #genres .showGenres h3 {
         position: relative;
-        margin-bottom: 0.5em;
+        margin-bottom: 0.3em;
         font-size: 1.8em;
         font-weight: 400;
         color: var(--text-color-light);

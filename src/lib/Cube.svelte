@@ -85,10 +85,7 @@
         0% {
             top: 48.6%;
         }
-        30% {
-            top: 53%;
-        }
-        50% {
+        30%, 50% {
             top: 53%;
         }
         100% {
@@ -97,7 +94,7 @@
     }
 
     img:last-of-type {
-        top: 25.3%;
+        top: 20%;
 
         animation-name: img2, img2Move;
         animation-duration: 3s, 0.7s;
@@ -106,35 +103,32 @@
     }
     @keyframes img2 {
         0% {
-            top: -38%;
+            top: -44%;
             left: 70%;
-            width: 28em;
+            width: 24em;
         }
         30% {
-            top: -38%;
+            top: -44%;
             left: 70%;
-            width: 28em;
+            width: 24em;
         }
         80% {
             top: 12%;
-            left: 40%;
-            width: 22em;
+            left: 44%;
+            width: 20em;
         }
         100% {
-            top: 25.8%;
+            top: 20%;
             left: 51%;
             width: 18em;
         }
     }
     @keyframes img2Move {
         0% {
-            top: 25.8%;
+            top: 20%;
         }
-        30% {
-            top: 22%;
-        }
-        50% {
-            top: 22%;
+        30%, 50% {
+            top: 18%;
         }
         100% {
             top: 32%;
@@ -189,11 +183,7 @@
             top: 52%;
             height: 50px;
         }
-        30% {
-            top: 58%;
-            height: 50px;
-        }
-        50% {
+        30%, 50% {
             top: 58%;
             height: 50px;
         }
@@ -242,11 +232,7 @@
             top: 49%;
             height: 50px;
         }
-        30% {
-            top: 53%;
-            height: 50px;
-        }
-        50% {
+        30%, 50% {
             top: 53%;
             height: 50px;
         }
@@ -290,11 +276,7 @@
             top: 46%;
             height: 50px;
         }
-        30% {
-            top: 48%;
-            height: 50px;
-        }
-        50% {
+        30%, 50% {
             top: 48%;
             height: 50px;
         }
@@ -338,11 +320,7 @@
             top: 43%;
             height: 50px;
         }
-        30% {
-            top: 43%;
-            height: 50px;
-        }
-        50% {
+        30%, 50% {
             top: 43%;
             height: 50px;
         }
@@ -391,11 +369,7 @@
             top: 40%;
             height: 50px;
         }
-        30% {
-            top: 38%;
-            height: 50px;
-        }
-        50% {
+        30%, 50% {
             top: 38%;
             height: 50px;
         }
