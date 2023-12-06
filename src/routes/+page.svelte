@@ -24,7 +24,7 @@
         currentArticle = (currentArticle % amountArticles) + 1;
     };
 
-    const intervalTime = { 1: 7080, 2: 8000, 3: 15000 };
+    const intervalTime = { 1: 8000, 2: 8000, 3: 15000 };
 
     const calculateInterval = () => {
         return intervalTime[currentArticle] || 8000;
@@ -84,13 +84,13 @@
     let isPlaying = false;
     let isMuted = false;
 
-    function togglePlay() {
+    const togglePlay = () => {
         isPlaying = !isPlaying;
-    }
+    };
 
-    function toggleMute() {
+    const toggleMute = () => {
         isMuted = !isMuted;
-    }
+    };
 </script>
 
 <svelte:head>
@@ -102,18 +102,38 @@
         <div id="backwards" bind:this={backwards} />
         <div id="forwards" bind:this={forwards} />
     </div>
+
     <section id="wrapped">
         <header>
-            <img src="spotify2.png" alt="" />
-            <div>
-                <button on:click={togglePlay}>
-                    <img src={isPlaying ? 'play.png' : 'pause.png'} alt="" />
-                </button>
-                <button on:click={toggleMute}>
-                    <img src={isMuted ? 'mute.png' : 'sound.png'} alt="" />
-                </button>
+            <div id="counter">
+                {#each Array(amountArticles) as _, index (index)}
+                    <span
+                        style={`
+                            --interval-time: ${intervalTime[index + 1]}ms;
+                        `}
+                        class:active={currentArticle === index + 1}
+                    />
+                {/each}
+            </div>
+            <div id="info">
+                <img src="spotify2.png" alt="" />
+                <div>
+                    <button on:click={togglePlay}>
+                        <img
+                            src={isPlaying ? 'play.png' : 'pause.png'}
+                            alt="play icon"
+                        />
+                    </button>
+                    <button on:click={toggleMute}>
+                        <img
+                            src={isMuted ? 'mute.png' : 'sound.png'}
+                            alt="sound icon"
+                        />
+                    </button>
+                </div>
             </div>
         </header>
+
         {#if currentArticle === 1}
             <article id="intro" key="intro">
                 <span class="rect" />
@@ -147,6 +167,7 @@
                 </div>
             </article>
         {/if}
+
         {#if currentArticle === 2}
             <article id="taste" key="taste">
                 <span class="conic">
@@ -171,6 +192,7 @@
                 <h2>How did our tastes stack up?</h2>
             </article>
         {/if}
+
         {#if currentArticle === 3}
             <article id="genres" key="genres">
                 <span class="rainbow2">
@@ -190,11 +212,11 @@
         top: 0;
         left: 50%;
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        flex-direction: column;
+        gap: 0.8em;
         width: 100%;
         max-width: 430px;
-        padding: 1em;
+        padding: 0.6em 1em 1em 1em;
         background: linear-gradient(
             180deg,
             rgba(0, 0, 0, 0.3) 0%,
@@ -204,11 +226,50 @@
         z-index: 9999;
     }
 
-    header > img {
+    header #counter {
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        width: 100%;
+    }
+
+    header #counter span {
+        position: relative;
+        width: 100%;
+        height: 0.2em;
+        border-radius: 0.25em;
+        background-color: #ffffff3d;
+    }
+    header #counter span.active::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 100%;
+        background-color: var(--text-color-light);
+        border-radius: 0.25em;
+        animation: fillProgressBar var(--interval-time) linear infinite;
+    }
+
+    @keyframes fillProgressBar {
+        to {
+            width: 100%;
+        }
+    }
+
+    header #info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
+    header #info > img {
         width: 6em;
     }
 
-    header > div {
+    header > #info > div {
         display: flex;
         gap: 1em;
     }
@@ -252,7 +313,7 @@
     article {
         width: 100%;
         max-width: 430px;
-        height: 100svh;
+        height: 100dvh;
         margin: 0 auto;
         overflow: hidden;
     }
