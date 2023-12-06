@@ -45,6 +45,17 @@
         main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
         clearInterval(interval);
     });
+
+    let isPlaying = false;
+    let isMuted = false;
+
+    function togglePlay() {
+        isPlaying = !isPlaying;
+    }
+
+    function toggleMute() {
+        isMuted = !isMuted;
+    }
 </script>
 
 <svelte:head>
@@ -56,8 +67,12 @@
         <header>
             <img src="spotify2.png" alt="" />
             <div>
-                <h3>Hello you</h3>
-                <p>It's Wrapped time. Ready? Let's do this.</p>
+                <button on:click={togglePlay}>
+                    <img src={isPlaying ? 'play.png' : 'pause.png'} alt="" />
+                </button>
+                <button on:click={toggleMute}>
+                    <img src={isMuted ? 'mute.png' : 'sound.png'} alt="" />
+                </button>
             </div>
         </header>
         {#if currentArticle === 1}
