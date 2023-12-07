@@ -108,9 +108,6 @@
     });
 
     afterUpdate(() => {
-        clearInterval(interval);
-        interval = setInterval(switchArticle, calculateInterval());
-
         if (main) {
             main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
             forwards?.addEventListener('click', handleClickForwards);
@@ -560,6 +557,7 @@
         background-color: #0d0020a8;
         border: none;
         border-radius: 50%;
+        z-index: 999999;
     }
 
     header button img {
@@ -1200,11 +1198,6 @@
         text-align: center;
         animation: slideMinutesOther 3.5s ease-in-out;
         animation-delay: 4.5s;
-    }
-    #minutes > div:last-of-type p strong {
-        letter-spacing: 1.2px;
-        -webkit-text-stroke-width: 1px;
-        -webkit-text-stroke-color: var(--text-color-dark);
     }
 
     @keyframes slideMinutesHeadingThree {
@@ -1959,6 +1952,11 @@
         color: var(--text-color-light);
         background-color: var(--color-wrapped);
         overflow-x: scroll;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    #wrapped2::-webkit-scrollbar {
+        display: none;
     }
 
     #wrapper {
