@@ -19,8 +19,15 @@
     --color-taste: #3f0174;
     --color-genres: #3f0174;
     --color-minutes: #ff5b4d;
+    --color-artists: #b4afff;
+    --color-waiting: linear-gradient(117deg, rgba(219,182,4,1) 0%, rgba(219,182,4,1) 50%, rgba(14,14,14,1) 50%, rgba(14,14,14,1) 100%);
+    --color-hero: #0e0e0e;
 }
 
 body {
     user-select: none;
+}
+
+li {
+    list-style: none;
 }

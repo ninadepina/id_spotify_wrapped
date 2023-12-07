@@ -13,77 +13,82 @@
         1: '--color-intro',
         2: '--color-taste',
         3: '--color-genres',
-        4: '--color-minutes'
+        4: '--color-minutes',
+        5: '--color-artist',
+        6: '--color-waiting',
+        7: '--color-hero'
     };
+
+    let numberOfSpans = 16;
 
     let main;
     let backwards;
     let forwards;
 
-    let currentArticle = 1;
-    let amountArticles = 4;
+    let currentArticle = 7;
+    let amountArticles = 7;
     let interval;
 
-    const intervalTime = { 1: 8000, 2: 8000, 3: 15000, 4: 8000 };
+    const intervalTime = { 1: 8000, 2: 8000, 3: 15000, 4: 8000, 5: 8000, 6: 7200 };
 
-    const switchArticle = () => {
-        currentArticle = (currentArticle % amountArticles) + 1;
-    };
+    // const switchArticle = () => {
+    //     currentArticle = (currentArticle % amountArticles) + 1;
+    // };
 
-    const calculateInterval = () => {
-        return intervalTime[currentArticle] || 8000;
-    };
+    // const calculateInterval = () => {
+    //     return intervalTime[currentArticle] || 8000;
+    // };
 
-    const handleClickForwards = () => {
-        if (currentArticle < amountArticles) {
-            switchArticle();
-            clearInterval(interval);
-            interval = setInterval(switchArticle, calculateInterval());
-        }
-    };
+    // const handleClickForwards = () => {
+    //     if (currentArticle < amountArticles) {
+    //         switchArticle();
+    //         clearInterval(interval);
+    //         interval = setInterval(switchArticle, calculateInterval());
+    //     }
+    // };
 
-    const handleClickBackwards = () => {
-        if (currentArticle > 1) {
-            currentArticle = ((currentArticle - 2 + 3) % 3) + 1;
-            clearInterval(interval);
-            interval = setInterval(switchArticle, calculateInterval());
-        }
-    };
+    // const handleClickBackwards = () => {
+    //     if (currentArticle > 1) {
+    //         currentArticle = ((currentArticle - 2 + 3) % 3) + 1;
+    //         clearInterval(interval);
+    //         interval = setInterval(switchArticle, calculateInterval());
+    //     }
+    // };
 
-    onMount(() => {
-        interval = setInterval(() => {
-            switchArticle();
-            clearInterval(interval);
-            interval = setInterval(switchArticle, calculateInterval());
-        }, calculateInterval());
+    // onMount(() => {
+    //     interval = setInterval(() => {
+    //         switchArticle();
+    //         clearInterval(interval);
+    //         interval = setInterval(switchArticle, calculateInterval());
+    //     }, calculateInterval());
 
-        if (main) {
-            main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
-            forwards.addEventListener('click', handleClickForwards);
-            backwards.addEventListener('click', handleClickBackwards);
-        }
-    });
+    //     if (main) {
+    //         main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
+    //         forwards.addEventListener('click', handleClickForwards);
+    //         backwards.addEventListener('click', handleClickBackwards);
+    //     }
+    // });
 
-    afterUpdate(() => {
-        clearInterval(interval);
-        interval = setInterval(switchArticle, calculateInterval());
+    // afterUpdate(() => {
+    //     clearInterval(interval);
+    //     interval = setInterval(switchArticle, calculateInterval());
 
-        if (main) {
-            main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
-            forwards.addEventListener('click', handleClickForwards);
-            backwards.addEventListener('click', handleClickBackwards);
-        }
-    });
+    //     if (main) {
+    //         main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
+    //         forwards.addEventListener('click', handleClickForwards);
+    //         backwards.addEventListener('click', handleClickBackwards);
+    //     }
+    // });
 
-    onDestroy(() => {
-        clearInterval(interval);
+    // onDestroy(() => {
+    //     clearInterval(interval);
 
-        if (main) {
-            main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
-            forwards.addEventListener('click', handleClickForwards);
-            backwards.addEventListener('click', handleClickBackwards);
-        }
-    });
+    //     if (main) {
+    //         main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
+    //         forwards.addEventListener('click', handleClickForwards);
+    //         backwards.addEventListener('click', handleClickBackwards);
+    //     }
+    // });
 
     let isPlaying = false;
     let isMuted = false;
@@ -112,9 +117,7 @@
             <div id="counter">
                 {#each Array(amountArticles) as _, index (index)}
                     <span
-                        style={`
-                            --interval-time: ${intervalTime[index + 1]}ms;
-                        `}
+                        style={`--interval-time: ${intervalTime[index + 1]}ms;`}
                         class:active={currentArticle === index + 1}
                     />
                 {/each}
@@ -238,6 +241,73 @@
                     <h3>You all listened for xxxxxxxx minutes.</h3>
                     <p>That's <strong>xxx</strong> days nonstop.</p>
                 </div>
+            </article>
+        {/if}
+
+        {#if currentArticle === 5}
+            <article id="artists" key="artists">
+                <span class="line2">
+                    <svg viewBox="0 0 1695 593" fill="none">
+                        <path
+                            d="M15 15C172.333 39.3333 545 115.5 777 225.5C1067 363 1285 476.5 1144.5 563C1004 649.5 802.5 317 859 236C915.5 155 1144.5 224 1217.5 251.5C1290.5 279 1570 396 1462 479.5C1354 563 1083 311 1217.5 225.5C1352 140 1619.5 293 1680 358"
+                            stroke="#7457FE"
+                            stroke-width="30"
+                            stroke-linecap="round"
+                        />
+                    </svg>
+                </span>
+
+                <h2>Our top artists</h2>
+                <ol>
+                    <li>
+                        <h3>1</h3>
+                        <img src="sza.png" alt="" />
+                        <h4>SZA</h4>
+                    </li>
+                    <li>
+                        <h3>2</h3>
+                        <img src="sza.png" alt="" />
+                        <h4>SZA</h4>
+                    </li>
+                    <li>
+                        <h3>3</h3>
+                        <img src="sza.png" alt="" />
+                        <h4>SZA</h4>
+                    </li>
+                    <li>
+                        <h3>4</h3>
+                        <img src="sza.png" alt="" />
+                        <h4>SZA</h4>
+                    </li>
+                    <li>
+                        <h3>5</h3>
+                        <img src="sza.png" alt="" />
+                        <h4>SZA</h4>
+                    </li>
+                </ol>
+            </article>
+        {/if}
+
+        {#if currentArticle === 6}
+            <article id="waiting" key="waiting">
+                <span class="color">
+                    {#each Array(numberOfSpans) as _, index (index)}
+                        <span style={`--animation-time: ${2.5 - index * 0.05}s;`} />
+                    {/each}
+                </span>
+
+                <div>
+                    <h3>One moment please</h3>
+                    <p>We're turning off the lights.</p>
+                </div>
+            </article>
+        {/if}
+
+        {#if currentArticle === 7}
+            <article id="hero" key="hero">
+                <span class="star">
+
+                </span>
             </article>
         {/if}
     </section>
@@ -385,6 +455,34 @@
         width: 100%;
     }
 
+    .line2 {
+        bottom: -6%;
+        width: 22em;
+    }
+
+    .line2 svg path {
+        stroke-dasharray: 6800;
+        stroke-dashoffset: 0;
+
+        animation-name: drawPathLine, removePathLine;
+        animation-duration: 3s, 2s;
+        animation-delay: 0s, 6.5s;
+        animation-timing-function: forwards, forwards;
+    }
+    @keyframes drawPathLine {
+        from {
+            stroke-dashoffset: 6800;
+        }
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+    @keyframes removePathLine {
+        to {
+            stroke-dashoffset: 6800;
+        }
+    }
+
     /* amoebe */
     .amoebe {
         top: -10%;
@@ -434,6 +532,58 @@
     @keyframes removePathFlower {
         to {
             stroke-dashoffset: 6700;
+        }
+    }
+
+    .color {
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .color span {
+        position: relative;
+        left: -15%;
+        display: inline-block;
+        width: 0;
+        height: 100%;
+        background: linear-gradient(
+            90deg,
+            #d4d4d3 0%,
+            #0afdfe 6.06%,
+            #999b9f 11.95%,
+            #cacacc 18.28%,
+            #5d5c60 22.72%,
+            #807f83 29.09%,
+            #1b1a1c 35.94%,
+            #d1f56d 42.06%,
+            #d4d4d6 48.42%,
+            #d1f56d 54.54%,
+            #1b1a1c 60.9%,
+            #807f83 67.76%,
+            #5d5c60 73.88%,
+            #cacacc 80.49%,
+            #999b9f 86.85%,
+            #0afdfe 93.95%,
+            #d4d4d3 100%
+        );
+        animation: slide var(--animation-time) ease-in-out;
+    }
+    #waiting .color span {
+        animation-delay: 4.3s;
+    }
+
+    @keyframes slide {
+        0% {
+            left: 100%;
+            width: 0;
+        }
+        50% {
+            width: 200%;
+        }
+        100% {
+            left: -15%;
+            width: 0;
         }
     }
 
@@ -736,7 +886,8 @@
             top: 70%;
             opacity: 0;
         }
-        20%, 80% {
+        20%,
+        80% {
             top: 45%;
             opacity: 1;
         }
@@ -772,6 +923,226 @@
         20%,
         80% {
             top: 53%;
+            opacity: 1;
+        }
+        100% {
+            top: 25%;
+            opacity: 0;
+        }
+    }
+
+    #artists {
+        position: relative;
+        padding: 8em 1.5em;
+        background-color: var(--color-artists);
+    }
+
+    #artists ol {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1em;
+        margin-top: 1.4em;
+    }
+
+    #artists li {
+        position: relative;
+        width: 100%;
+        height: 50px;
+    }
+
+    #artists ol li > * {
+        position: absolute;
+    }
+
+    #artists h3,
+    #artists h4 {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    #artists h3 {
+        left: 0;
+        font-size: 2.2em;
+        animation: h3Slide 2s ease-in-out;
+        opacity: 1;
+    }
+    #artists li:nth-of-type(2) h3 {
+        animation: h3Slide 2.4s ease-in-out;
+    }
+    #artists li:nth-of-type(3) h3 {
+        animation: h3Slide 2.8s ease-in-out;
+    }
+    #artists li:nth-of-type(4) h3 {
+        animation: h3Slide 3.2s ease-in-out;
+    }
+    #artists li:nth-of-type(5) h3 {
+        animation: h3Slide 3.6s ease-in-out;
+    }
+    @keyframes h3Slide {
+        0%,
+        60% {
+            left: -20%;
+            transform: translateY(-50%);
+            opacity: 0;
+        }
+        80% {
+            opacity: 0.2;
+        }
+        90%,
+        100% {
+            left: 0;
+            transform: translateY(-50%);
+            opacity: 1;
+        }
+    }
+
+    #artists h4 {
+        left: calc(3em + 50px);
+        font-size: 1em;
+        animation: h4Slide 2s ease-in-out;
+        opacity: 1;
+    }
+    #artists li:nth-of-type(2) h4 {
+        animation: h4Slide 2.4s ease-in-out;
+    }
+    #artists li:nth-of-type(3) h4 {
+        animation: h4Slide 2.8s ease-in-out;
+    }
+    #artists li:nth-of-type(4) h4 {
+        animation: h4Slide 3.2s ease-in-out;
+    }
+    #artists li:nth-of-type(5) h4 {
+        animation: h4Slide 3.6s ease-in-out;
+    }
+    @keyframes h4Slide {
+        0%,
+        60% {
+            left: 1em;
+            transform: translateY(-50%);
+            opacity: 0;
+        }
+        80% {
+            opacity: 0.2;
+        }
+        90%,
+        100% {
+            left: calc(3em + 50px);
+            transform: translateY(-50%);
+            opacity: 1;
+        }
+    }
+
+    #artists img {
+        left: 4em;
+        width: 50px;
+        transform: translateX(-50%) scale(1);
+        animation: imgSlide 2s ease-in-out;
+        z-index: 7;
+    }
+    #artists li:nth-of-type(2) img {
+        animation: imgSlide 2.4s ease-in-out;
+    }
+    #artists li:nth-of-type(3) img {
+        animation: imgSlide 2.8s ease-in-out;
+    }
+    #artists li:nth-of-type(4) img {
+        animation: imgSlide 3.2s ease-in-out;
+    }
+    #artists li:nth-of-type(5) img {
+        animation: imgSlide 3.6s ease-in-out;
+    }
+
+    @keyframes imgSlide {
+        0% {
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+        }
+        40% {
+            left: 50%;
+            transform: translateX(-50%) scale(1);
+        }
+        100% {
+            left: 4em;
+            transform: translateX(-50%) scale(1);
+        }
+    }
+
+    #waiting {
+        position: relative;
+        background: rgb(219,182,4);
+        background: var(--color-waiting);
+        background-size: 300%;
+        animation: moveBg 2.9s ease-in-out;
+        animation-delay: 4.3s;
+    }
+    @keyframes moveBg {
+        0%, 30% {
+            background-position: left;
+        }
+        50% {
+            background-position: center;
+        }
+        70%, 100% {
+            background-position: right;
+        }
+    }
+
+    #waiting h3,
+    #waiting p {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+    }
+
+    #waiting h3 {
+        top: 16%;
+        width: 300px;
+        font-size: 1.8em;
+        line-height: 1em;
+        text-align: center;
+        animation: slideWaitingHeadingThree 4.5s ease-in-out;
+    }
+
+    #waiting p {
+        top: 20%;
+        max-width: 225px;
+        font-size: 1em;
+        text-align: center;
+        white-space: nowrap;
+        animation: slideWaitingOther 3.5s ease-in-out;
+        animation-delay: 1s;
+    }
+
+    @keyframes slideWaitingHeadingThree {
+        0% {
+            top: 70%;
+            opacity: 0;
+        }
+        20% {
+            top: 50%;
+            opacity: 1;
+        }
+        40%,
+        80% {
+            top: 43%;
+            opacity: 1;
+        }
+        100% {
+            top: 16%;
+            opacity: 0;
+        }
+    }
+    @keyframes slideWaitingOther {
+        0% {
+            top: 75%;
+            opacity: 0;
+        }
+        20%,
+        80% {
+            top: 50%;
             opacity: 1;
         }
         100% {
