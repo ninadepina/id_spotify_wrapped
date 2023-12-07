@@ -17,8 +17,8 @@
         2: '--color-taste',
         3: '--color-genres',
         4: '--color-minutes',
-        5: '--color-artist',
-        6: '--color-waiting',
+        5: '--color-artists',
+        6: '--color-waiting2',
         7: '--color-hero',
         8: '--color-hero2',
         9: '--color-traveler',
@@ -51,7 +51,9 @@
     };
 
     const switchArticle = () => {
-        currentArticle = (currentArticle % amountArticles) + 1;
+        if (currentArticle !== 11) {
+            currentArticle = (currentArticle % amountArticles) + 1;
+        }
     };
 
     const calculateInterval = () => {
@@ -76,13 +78,11 @@
     };
 
     onMount(() => {
-        if (currentArticle !== 11) {
         interval = setInterval(() => {
             switchArticle();
             clearInterval(interval);
             interval = setInterval(switchArticle, calculateInterval());
         }, calculateInterval());
-    }
 
         if (main) {
             main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
@@ -147,7 +147,8 @@
                     <span
                         style={`--interval-time: ${intervalTime[index + 1]}ms;`}
                         class:active={currentArticle === index + 1}
-                        class:visible={currentArticle > index + 1}
+                        class:visible={currentArticle > index + 1 ||
+                            currentArticle === 11}
                     />
                 {/each}
             </div>
@@ -268,7 +269,11 @@
                 </div>
                 <div>
                     <h3>We listened for {minutes.total} minutes.</h3>
-                    <p>With an average of 44.239 minutes (that's <strong>{minutes.days}</strong> days onstop)</p>
+                    <p>
+                        With an average of 44.239 minutes (that's <strong
+                            >{minutes.days}</strong
+                        > days onstop)
+                    </p>
                 </div>
             </article>
         {/if}
@@ -431,7 +436,7 @@
         {/if}
 
         {#if currentArticle === 11}
-            <article id="wrapped" key="wrapped">
+            <article id="wrapped2" key="wrapped2">
                 <div id="wrapper">
                     <img src="wrapped1.png" alt="" />
                     <img src="wrapped2.png" alt="" />
@@ -496,7 +501,6 @@
         animation: none;
     }
 
-
     @keyframes fillProgressBar {
         to {
             width: 100%;
@@ -536,7 +540,7 @@
     }
 
     #clicker {
-        position: fixed;
+        position: absolute;
         inset: 0;
         left: 0;
         display: flex;
@@ -551,7 +555,15 @@
         height: 100%;
     }
 
+    main {
+        background-color: #ff5b4d;
+    }
+
     #wrapped {
+        height: 100dvh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         font-family: var(--font-family);
     }
 
@@ -559,7 +571,8 @@
         width: 100%;
         max-width: 430px;
         height: 100dvh;
-        margin: 0 auto;
+        max-height: 800px;
+        margin: auto;
         overflow: hidden;
     }
 
@@ -1881,7 +1894,7 @@
         }
     }
 
-    #wrapped {
+    #wrapped2 {
         position: relative;
         color: var(--text-color-light);
         background-color: var(--color-wrapped);
@@ -1922,5 +1935,4 @@
         height: 1em;
         transform: rotate(-104deg);
     }
-
 </style>
