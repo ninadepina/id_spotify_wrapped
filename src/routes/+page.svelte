@@ -268,11 +268,10 @@
                     <h3>Time is a construct, but we kept track anyway</h3>
                 </div>
                 <div>
-                    <h3>We listened for {minutes.total} minutes.</h3>
+                    <h3>We listened for {minutes.total.minutes} minutes.</h3>
                     <p>
-                        With an average of 44.239 minutes (that's <strong
-                            >{minutes.days}</strong
-                        > days onstop)
+                        With an average of {minutes.average.min} minutes (that's
+                        <strong>{minutes.average.days}</strong> days nonstop)
                     </p>
                 </div>
             </article>
@@ -1378,6 +1377,7 @@
         font-size: 1.8em;
         line-height: 1em;
         text-align: center;
+        white-space: nowrap;
         animation: slideWaitingHeadingThree 4.5s ease-in-out;
     }
 
@@ -1792,6 +1792,7 @@
         font-size: 1.8em;
         line-height: 1em;
         text-align: center;
+        white-space: nowrap;
         animation: slideTravelerHeadingThree 5.5s ease-in-out;
     }
 
@@ -1847,6 +1848,7 @@
         font-size: 1.8em;
         line-height: 1em;
         text-align: center;
+        white-space: nowrap;
         animation: slideFunHeadingThree 4.5s ease-in-out;
     }
 
@@ -1924,6 +1926,7 @@
         display: flex;
         align-items: center;
         gap: 0.4em;
+        white-space: nowrap;
         cursor: pointer;
     }
     .reload:hover {
