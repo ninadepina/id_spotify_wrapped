@@ -1,6 +1,9 @@
 <script>
     import { onMount, afterUpdate, onDestroy } from 'svelte';
 
+    // data
+    import { topArtists, minutes } from '$lib/data.js';
+
     // effects
     import Rect from '$lib/Rect.svelte';
 
@@ -16,7 +19,10 @@
         4: '--color-minutes',
         5: '--color-artist',
         6: '--color-waiting',
-        7: '--color-hero'
+        7: '--color-hero',
+        8: '--color-hero2',
+        9: '--color-traveler',
+        10: '--color-fun'
     };
 
     let numberOfSpans = 16;
@@ -26,7 +32,7 @@
     let forwards;
 
     let currentArticle = 1;
-    let amountArticles = 7;
+    let amountArticles = 10;
     let interval;
 
     const intervalTime = {
@@ -36,7 +42,10 @@
         4: 8000,
         5: 8000,
         6: 7200,
-        7: 8500
+        7: 8500,
+        8: 7700,
+        9: 6000,
+        10: 4500
     };
 
     const switchArticle = () => {
@@ -57,7 +66,8 @@
 
     const handleClickBackwards = () => {
         if (currentArticle > 1) {
-            currentArticle = ((currentArticle - 2 + 3) % 3) + 1;
+            currentArticle =
+                ((currentArticle - 2 + amountArticles) % amountArticles) + 1;
             clearInterval(interval);
             interval = setInterval(switchArticle, calculateInterval());
         }
@@ -246,8 +256,8 @@
                     <h3>Time is a construct, but we kept track anyway</h3>
                 </div>
                 <div>
-                    <h3>We listened for xxxxxxxx minutes.</h3>
-                    <p>That's <strong>xxx</strong> days nonstop.</p>
+                    <h3>We listened for {minutes.total} minutes.</h3>
+                    <p>That's <strong>{minutes.days}</strong> days nonstop.</p>
                 </div>
             </article>
         {/if}
@@ -270,27 +280,27 @@
                     <li>
                         <h3>1</h3>
                         <img src="sza.png" alt="" />
-                        <h4>SZA</h4>
+                        <h4>{topArtists.one}</h4>
                     </li>
                     <li>
                         <h3>2</h3>
                         <img src="sza.png" alt="" />
-                        <h4>SZA</h4>
+                        <h4>{topArtists.two}</h4>
                     </li>
                     <li>
                         <h3>3</h3>
                         <img src="sza.png" alt="" />
-                        <h4>SZA</h4>
+                        <h4>{topArtists.three}</h4>
                     </li>
                     <li>
                         <h3>4</h3>
                         <img src="sza.png" alt="" />
-                        <h4>SZA</h4>
+                        <h4>{topArtists.four}</h4>
                     </li>
                     <li>
                         <h3>5</h3>
                         <img src="sza.png" alt="" />
-                        <h4>SZA</h4>
+                        <h4>{topArtists.five}</h4>
                     </li>
                 </ol>
             </article>
@@ -316,7 +326,7 @@
         {#if currentArticle === 7}
             <article id="hero" key="hero">
                 <span class="line3">
-                    <img src="line2.png" alt="">
+                    <img src="line2.png" alt="" />
                 </span>
                 <span class="rect" />
                 <span class="star">
@@ -337,6 +347,74 @@
                 <div>
                     <h3>The way we listened this year makes us heroes</h3>
                     <p>Or maybe we should say... anti-heroes?</p>
+                </div>
+            </article>
+        {/if}
+
+        {#if currentArticle === 8}
+            <article id="hero2" key="hero2">
+                <div id="squares">
+                    <div class="square" />
+                    <div class="square" />
+                    <div class="square" />
+                    <div
+                        aria-label="flip card"
+                        role="button"
+                        tabindex="0"
+                        class="square card"
+                    >
+                        <section class="cardFront"/>
+                        <p>Tap to reveal</p>
+                        <section class="cardBack">
+                            <img src="timetraveler.png" alt="" />
+                        </section>
+                    </div>
+                </div>
+            </article>
+        {/if}
+
+        {#if currentArticle === 9}
+            <article id="traveler" key="traveler">
+                <div id="img">
+                    <img src="timetraveler.png" alt="" />
+                </div>
+                <div>
+                    <h3>Time Traveler</h3>
+                    <p>
+                        Have we met before? You travel back in time and listen
+                        to songs on repeat, again an again. The best tracks
+                        never get old.
+                    </p>
+                </div>
+            </article>
+        {/if}
+
+        {#if currentArticle === 10}
+            <article id="fun" key="fun">
+                <span class="rect2" />
+                <span class="flower">
+                    <svg viewBox="0 0 1230 1102" fill="none">
+                        <path
+                            d="M585.946 565.138C518.446 391.971 401.446 41.838 473.447 26.6381C611.446 -2.49498 625.446 364.305 656.446 542.638C681.113 413.471 879.473 89.2286 1059.95 279.638C1114.44 337.138 915.945 494.638 790.946 635.638C923.446 590.638 1191.65 551.938 1204.45 757.138C1217.25 962.338 934.113 859.638 790.946 782.638C877.279 830.971 1033.35 949.338 966.946 1036.14C883.946 1144.64 636.946 1020.14 611.446 856.638C615.613 920.805 607.946 1046.54 543.946 1036.14C406.445 1013.79 470.28 811.805 473.447 706.138C349.613 779.971 87.8461 883.338 31.4461 706.138C-24.9539 528.938 302.613 570.305 473.447 613.138C334.779 594.971 -22.1146 493.184 60.4453 424.138C255.945 260.638 411.779 473.305 585.946 565.138Z"
+                            stroke="#62F551"
+                            stroke-width="50"
+                            stroke-linejoin="round"
+                        />
+                    </svg>
+                </span>
+                <span class="line">
+                    <img src="line.png" alt="" />
+                </span>
+                <span class="line">
+                    <img src="line.png" alt="" />
+                </span>
+                <span class="amoebe">
+                    <img src="amoebe.png" alt="" />
+                </span>
+
+                <div>
+                    <h3>That was fun</h3>
+                    <p>Same time next year?</p>
                 </div>
             </article>
         {/if}
@@ -461,6 +539,7 @@
 
     #intro {
         position: relative;
+        color: var(--text-color-dark);
         background-color: var(--color-intro);
     }
 
@@ -469,12 +548,14 @@
         width: 25em;
     }
     #intro span:nth-of-type(2),
-    #minutes span:nth-of-type(2) {
+    #minutes span:nth-of-type(2),
+    #fun span:nth-of-type(3) {
         left: -28%;
         bottom: -5%;
     }
     #intro span:nth-of-type(3),
-    #minutes span:nth-of-type(3) {
+    #minutes span:nth-of-type(3),
+    #fun span:nth-of-type(4) {
         right: -8%;
         top: -4%;
         transform: rotate(208deg) scaleX(-1);
@@ -525,10 +606,12 @@
     }
 
     @keyframes line3 {
-        0%, 44% {
+        0%,
+        44% {
             opacity: 0;
         }
-        50%, 92% {
+        50%,
+        92% {
             opacity: 0.8;
         }
         100% {
@@ -573,6 +656,9 @@
         animation-delay: 0s, 7s;
         animation-timing-function: forwards, forwards;
     }
+    #fun .flower svg path {
+        animation-delay: 0s, 3.5s;
+    }
 
     @keyframes drawPathFlower {
         from {
@@ -597,12 +683,12 @@
         background: rgb(255, 255, 255);
         background: linear-gradient(
             227deg,
-            #3048F9,
-            #52FCCA,
-            #D1F66B,
-            #3048F9,
-            #52FCCA,
-            #D1F66B
+            #3048f9,
+            #52fcca,
+            #d1f66b,
+            #3048f9,
+            #52fcca,
+            #d1f66b
         );
         background-size: 1000% 1000%;
         animation: gradient 4s linear;
@@ -623,6 +709,53 @@
         100% {
             top: -150px;
             right: 0;
+            background-position: 0% 50%;
+        }
+    }
+
+    .rect2 {
+        position: absolute;
+        top: 0;
+        left: -20%;
+        width: 100px;
+        height: 180px;
+        background: rgb(255, 255, 255);
+        background: linear-gradient(
+            227deg,
+            #ffffff,
+            #245cff,
+            #63ff46,
+            #ffffff,
+            #245cff,
+            #63ff46,
+            #ffffff,
+            #245cff,
+            #63ff46,
+            #ffffff,
+            #245cff,
+            #63ff46,
+            #ffffff,
+            #245cff,
+            #63ff46,
+            #ffffff,
+            #245cff,
+            #63ff46
+        );
+        background-size: 1000% 1000%;
+        animation: gradient2 4.5s linear;
+    }
+
+    @keyframes gradient2 {
+        0% {
+            left: -20%;
+            background-position: 100% 50%;
+        }
+        5%,
+        95% {
+            left: 0;
+        }
+        100% {
+            left: -20%;
             background-position: 0% 50%;
         }
     }
@@ -740,7 +873,7 @@
         }
         20%,
         80% {
-            top: 40%;
+            top: 44%;
             opacity: 1;
         }
         100% {
@@ -754,12 +887,12 @@
             opacity: 0;
         }
         20% {
-            top: 45%;
+            top: 52%;
             opacity: 1;
         }
         40%,
         80% {
-            top: 40%;
+            top: 42%;
             opacity: 1;
         }
         100% {
@@ -769,12 +902,12 @@
     }
     @keyframes slideIntroOther {
         0% {
-            top: 70%;
+            top: 75%;
             opacity: 0;
         }
         20%,
         80% {
-            top: 47%;
+            top: 51%;
             opacity: 1;
         }
         100% {
@@ -785,6 +918,7 @@
 
     #taste {
         position: relative;
+        color: var(--text-color-dark);
         background-color: var(--color-taste);
     }
 
@@ -929,6 +1063,7 @@
 
     #minutes {
         position: relative;
+        color: var(--text-color-dark);
         background-color: var(--color-minutes);
     }
 
@@ -980,7 +1115,7 @@
         }
         20%,
         80% {
-            top: 45%;
+            top: 48%;
             opacity: 1;
         }
         100% {
@@ -994,12 +1129,12 @@
             opacity: 0;
         }
         20% {
-            top: 50%;
+            top: 48%;
             opacity: 1;
         }
         40%,
         80% {
-            top: 43%;
+            top: 44%;
             opacity: 1;
         }
         100% {
@@ -1014,7 +1149,7 @@
         }
         20%,
         80% {
-            top: 53%;
+            top: 55%;
             opacity: 1;
         }
         100% {
@@ -1026,6 +1161,7 @@
     #artists {
         position: relative;
         padding: 8em 1.5em;
+        color: var(--text-color-dark);
         background-color: var(--color-artists);
     }
 
@@ -1163,6 +1299,7 @@
 
     #waiting {
         position: relative;
+        color: var(--text-color-dark);
         background: rgb(219, 182, 4);
         background: var(--color-waiting);
         background-size: 300%;
@@ -1247,6 +1384,7 @@
 
     #hero {
         position: relative;
+        color: var(--text-color-dark);
         background-color: var(--color-hero);
     }
 
@@ -1367,6 +1505,346 @@
     @keyframes removePathStar {
         to {
             stroke-dashoffset: 6700;
+        }
+    }
+
+    #hero2 {
+        position: relative;
+        color: var(--text-color-light);
+        background-color: var(--color-hero);
+    }
+
+    #squares {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .square {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 17.9em;
+        height: 26.8em;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+    }
+    .square:nth-of-type(1) {
+        --opacity: 0;
+
+        background: linear-gradient(
+            211deg,
+            #d1f66e 0%,
+            #07f6ff 48.96%,
+            #3440f2 100%
+        );
+        animation: bounce 5.5s ease-in-out;
+    }
+    .square:nth-of-type(2) {
+        --opacity: 0;
+
+        background: linear-gradient(
+            202deg,
+            #2e2db3 -3.86%,
+            #2e2db3 6.57%,
+            #57fbc4 32.98%,
+            #d1f66b 71.74%,
+            #d3f76c 118.12%
+        );
+        animation: bounce 5s ease-in-out;
+    }
+    .square:nth-of-type(3) {
+        --opacity: 0;
+
+        background: linear-gradient(
+            211deg,
+            #d1f66e 0%,
+            #07f6ff 48.96%,
+            #3440f2 100%
+        );
+        animation: bounce 4.5s ease-in-out;
+    }
+    .square:nth-of-type(4) {
+        --opacity: 1;
+
+        animation: bounce 4s ease-in-out;
+        opacity: 1;
+    }
+
+    @keyframes bounce {
+        0% {
+            top: 24%;
+            left: -35%;
+            transform: translate(-50%, -50%) scale(0.3);
+            opacity: 1;
+        }
+        40% {
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.4);
+            opacity: 1;
+        }
+        50% {
+            top: 70%;
+            left: 50%;
+            height: 15em;
+            transform: translate(-50%, -50%) scale(0.4);
+            opacity: 1;
+        }
+        80% {
+            opacity: var(--opacity);
+        }
+        100% {
+            top: 50%;
+            left: 50%;
+            width: 17.9em;
+            height: 26.8em;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    .card {
+        z-index: 999999;
+    }
+
+    .cardBack img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .cardFront,
+    .cardBack {
+        position: absolute;
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.4);
+        transition: 0.9s cubic-bezier(0.25, 0.8, 0.25, 1);
+        backface-visibility: hidden;
+        overflow: hidden;
+    }
+    .cardFront {
+        transform: rotateY(-180deg);
+        background: radial-gradient(
+            205.81% 251.13% at -81.16% 173.92%,
+            #e7132d 0%,
+            #a50c7d 9.93%,
+            #3825f7 19.48%,
+            #08f8ff 28.53%,
+            #d1f66b 36.79%,
+            #d1f66b 44.5%,
+            #d1f66b 53.17%,
+            #08f8ff 63.62%,
+            #3825f7 76.5%,
+            #a50c7d 86.71%,
+            #e7132d 100%
+        );
+        background-size: 200%;
+        animation: turnFront 6.8s linear;
+        visibility: hidden;
+    }
+    .cardBack {
+        transform: rotateY(0deg);
+        animation: turnBack 6.8s linear;
+        visibility: visible;
+    }
+
+    @keyframes turnBack {
+        0%, 88% {
+            transform: rotateY(180deg);
+            visibility: hidden;
+        }
+        100% {
+            transform: rotateY(0deg);
+            visibility: visible;
+        }
+    }
+    @keyframes turnFront {
+        0%, 88% {
+            transform: rotateY(0deg);
+            visibility: visible;
+        }
+        100% {
+            transform: rotateY(-180deg);
+            visibility: visible;
+        }
+    }
+
+    .card p {
+        position: absolute;
+        left: 50%;
+        bottom: -2.5em;
+        transform: translateX(-50%);
+        transition: opacity 0.5s ease-in-out;
+        animation: showP 4s linear;
+        opacity: 1;
+        visibility: hidden;
+    }
+    @keyframes showP {
+        0%,
+        95% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+
+    #traveler {
+        position: relative;
+        color: var(--text-color-light);
+        background-color: var(--color-traveler);
+    }
+
+    #img {
+        position: absolute;
+        top: 45%;
+        left: 50%;
+        width: 17.9em;
+        height: 26.8em;
+        transform: translate(-50%, -50%) scale(0.9);
+        animation: sizeImg 2s ease-in-out;
+    }
+    @keyframes sizeImg {
+        0%,
+        30% {
+            top: 50%;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        60% {
+            top: 60%;
+            transform: translate(-50%, -50%) scale(1.25);
+        }
+        90% {
+            transform: translate(-50%, -50%) scale(0.9);
+        }
+        100% {
+            top: 45%;
+            transform: translate(-50%, -50%) scale(0.9);
+        }
+    }
+
+    #img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    #traveler h3,
+    #traveler p {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    #traveler h3 {
+        top: 78%;
+        font-size: 1.8em;
+        line-height: 1em;
+        text-align: center;
+        animation: slideTravelerHeadingThree 5.5s ease-in-out;
+    }
+
+    #traveler p {
+        top: 84%;
+        width: 270px;
+        font-size: 1em;
+        text-align: center;
+        animation: slideTravelerOther 5.5s ease-in-out;
+    }
+
+    @keyframes slideTravelerHeadingThree {
+        0%,
+        33% {
+            top: 99%;
+            opacity: 0;
+        }
+        53%,
+        100% {
+            top: 78%;
+            opacity: 1;
+        }
+    }
+    @keyframes slideTravelerOther {
+        0%,
+        33% {
+            top: 104%;
+            opacity: 0;
+        }
+        53%,
+        100% {
+            top: 84%;
+            opacity: 1;
+        }
+    }
+
+    #fun {
+        position: relative;
+        color: var(--text-color-dark);
+        background-color: var(--color-fun);
+    }
+
+    #fun h3,
+    #fun p {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+    }
+
+    #fun h3 {
+        top: 16%;
+        font-size: 1.8em;
+        line-height: 1em;
+        text-align: center;
+        animation: slideFunHeadingThree 4.5s ease-in-out;
+    }
+
+    #fun p {
+        top: 20%;
+        font-size: 1em;
+        text-align: center;
+        white-space: nowrap;
+        animation: slideFunOther 3.5s ease-in-out;
+        animation-delay: 1s;
+    }
+
+    @keyframes slideFunHeadingThree {
+        0% {
+            top: 70%;
+            opacity: 0;
+        }
+        20% {
+            top: 52%;
+            opacity: 1;
+        }
+        40%,
+        80% {
+            top: 45%;
+            opacity: 1;
+        }
+        100% {
+            top: 16%;
+            opacity: 0;
+        }
+    }
+    @keyframes slideFunOther {
+        0% {
+            top: 75%;
+            opacity: 0;
+        }
+        20%,
+        80% {
+            top: 51%;
+            opacity: 1;
+        }
+        100% {
+            top: 25%;
+            opacity: 0;
         }
     }
 </style>

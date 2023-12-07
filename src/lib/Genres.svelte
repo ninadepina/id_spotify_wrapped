@@ -1,5 +1,6 @@
 <script>
     import { onMount } from 'svelte';
+    import { topGenres } from '$lib/data.js';
 
     let outerDiv;
 
@@ -22,7 +23,7 @@
         <img src="bread3.png" alt="" />
         <div class="layers">
             <span>
-                <p>Genre</p>
+                <p>{topGenres.one}</p>
                 <svg class="lettuce" viewBox="0 0 1467 99" fill="none">
                     <path
                         d="M605.902 0C666.402 0 665.902 58 730.902 58V98.5H44.8984C33.7328 93.1667 10.5016 82 6.90159 80C2.40159 77.5 -10.0984 61.5 16.4016 51C42.9016 40.5 54.8984 4 100.902 4C175.902 4 156.902 61.5 225.402 61.5C293.902 61.5 296.402 0 356.402 0C416.402 0 407.402 58 479.902 61.5C552.402 65 545.402 0 605.902 0Z"
@@ -69,9 +70,9 @@
                     </defs>
                 </svg>
             </span>
-            <span><p>Genre</p></span>
+            <span><p>{topGenres.two}</p></span>
             <span>
-                <p>Genre</p>
+                <p>{topGenres.three}</p>
                 <svg class="cheese" viewBox="0 0 1418 78" fill="none">
                     <path
                         d="M0 20L23.5 0H491.5L511.5 20C430.833 39.3333 267.3 78 258.5 78C249.7 78 82.5 39.3333 0 20Z"
@@ -129,7 +130,7 @@
                 </svg>
             </span>
             <span>
-                <p>Genre</p>
+                <p>{topGenres.four}</p>
                 <svg class="tomato" viewBox="0 0 1456 74" fill="none">
                     <path
                         d="M884 63V16C934.333 10.6667 1063.7 0 1178.5 0C1293.3 0 1411.33 10.6667 1456 16V63C1421 66 1316.5 72.2 1178.5 73C1040.5 73.8 924.667 66.6667 884 63Z"
@@ -183,7 +184,7 @@
                     </defs>
                 </svg>
             </span>
-            <span><p>Genre</p></span>
+            <span><p>{topGenres.five}</p></span>
         </div>
         <img src="bread3.png" alt="" />
     </div>
