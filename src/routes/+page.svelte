@@ -22,7 +22,8 @@
         7: '--color-hero',
         8: '--color-hero2',
         9: '--color-traveler',
-        10: '--color-fun'
+        10: '--color-fun',
+        11: '--color-wrapped'
     };
 
     let numberOfSpans = 16;
@@ -32,7 +33,7 @@
     let forwards;
 
     let currentArticle = 1;
-    let amountArticles = 10;
+    let amountArticles = 11;
     let interval;
 
     const intervalTime = {
@@ -45,7 +46,8 @@
         7: 8500,
         8: 7700,
         9: 6000,
-        10: 4500
+        10: 4500,
+        11: 8000
     };
 
     const switchArticle = () => {
@@ -74,16 +76,18 @@
     };
 
     onMount(() => {
+        if (currentArticle !== 11) {
         interval = setInterval(() => {
             switchArticle();
             clearInterval(interval);
             interval = setInterval(switchArticle, calculateInterval());
         }, calculateInterval());
+    }
 
         if (main) {
             main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
-            forwards.addEventListener('click', handleClickForwards);
-            backwards.addEventListener('click', handleClickBackwards);
+            forwards?.addEventListener('click', handleClickForwards);
+            backwards?.addEventListener('click', handleClickBackwards);
         }
     });
 
@@ -93,8 +97,8 @@
 
         if (main) {
             main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
-            forwards.addEventListener('click', handleClickForwards);
-            backwards.addEventListener('click', handleClickBackwards);
+            forwards?.addEventListener('click', handleClickForwards);
+            backwards?.addEventListener('click', handleClickBackwards);
         }
     });
 
@@ -103,8 +107,8 @@
 
         if (main) {
             main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
-            forwards.addEventListener('click', handleClickForwards);
-            backwards.addEventListener('click', handleClickBackwards);
+            forwards?.addEventListener('click', handleClickForwards);
+            backwards?.addEventListener('click', handleClickBackwards);
         }
     });
 
@@ -118,6 +122,10 @@
     const toggleMute = () => {
         isMuted = !isMuted;
     };
+
+    const reset = () => {
+        currentArticle = 1;
+    };
 </script>
 
 <svelte:head>
@@ -125,10 +133,12 @@
 </svelte:head>
 
 <main bind:this={main}>
-    <div id="clicker">
-        <div id="backwards" bind:this={backwards} />
-        <div id="forwards" bind:this={forwards} />
-    </div>
+    {#if currentArticle !== 11}
+        <div id="clicker">
+            <div id="backwards" bind:this={backwards} />
+            <div id="forwards" bind:this={forwards} />
+        </div>
+    {/if}
 
     <section id="wrapped">
         <header>
@@ -137,6 +147,7 @@
                     <span
                         style={`--interval-time: ${intervalTime[index + 1]}ms;`}
                         class:active={currentArticle === index + 1}
+                        class:visible={currentArticle > index + 1}
                     />
                 {/each}
             </div>
@@ -257,7 +268,7 @@
                 </div>
                 <div>
                     <h3>We listened for {minutes.total} minutes.</h3>
-                    <p>That's <strong>{minutes.days}</strong> days nonstop.</p>
+                    <p>With an average of 44.239 minutes (that's <strong>{minutes.days}</strong> days onstop)</p>
                 </div>
             </article>
         {/if}
@@ -279,22 +290,22 @@
                 <ol>
                     <li>
                         <h3>1</h3>
-                        <img src="sza.png" alt="" />
+                        <img src="theweeknd.jpeg" alt="" />
                         <h4>{topArtists.one}</h4>
                     </li>
                     <li>
                         <h3>2</h3>
-                        <img src="sza.png" alt="" />
+                        <img src="newjeans.png" alt="" />
                         <h4>{topArtists.two}</h4>
                     </li>
                     <li>
                         <h3>3</h3>
-                        <img src="sza.png" alt="" />
+                        <img src="idaly.jpeg" alt="" />
                         <h4>{topArtists.three}</h4>
                     </li>
                     <li>
                         <h3>4</h3>
-                        <img src="sza.png" alt="" />
+                        <img src="adele.jpg" alt="" />
                         <h4>{topArtists.four}</h4>
                     </li>
                     <li>
@@ -363,7 +374,7 @@
                         tabindex="0"
                         class="square card"
                     >
-                        <section class="cardFront"/>
+                        <section class="cardFront" />
                         <p>Tap to reveal</p>
                         <section class="cardBack">
                             <img src="timetraveler.png" alt="" />
@@ -418,6 +429,19 @@
                 </div>
             </article>
         {/if}
+
+        {#if currentArticle === 11}
+            <article id="wrapped" key="wrapped">
+                <div id="wrapper">
+                    <img src="wrapped1.png" alt="" />
+                    <img src="wrapped2.png" alt="" />
+                </div>
+                <p class="reload" on:click={reset} on:keydown={reset}>
+                    <img style="width: 1em;" src="reload.png" alt="" />
+                    Replay from beginning
+                </p>
+            </article>
+        {/if}
     </section>
 </main>
 
@@ -455,6 +479,7 @@
         border-radius: 0.25em;
         background-color: #ffffff3d;
     }
+    header #counter span.visible::before,
     header #counter span.active::before {
         content: '';
         position: absolute;
@@ -466,6 +491,11 @@
         border-radius: 0.25em;
         animation: fillProgressBar var(--interval-time) linear infinite;
     }
+    header #counter span.visible::before {
+        width: 100%;
+        animation: none;
+    }
+
 
     @keyframes fillProgressBar {
         to {
@@ -1095,10 +1125,9 @@
 
     #minutes > div:last-of-type p {
         top: 20%;
-        max-width: 225px;
+        width: 300px;
         font-size: 1em;
         text-align: center;
-        white-space: nowrap;
         animation: slideMinutesOther 3.5s ease-in-out;
         animation-delay: 4.5s;
     }
@@ -1265,6 +1294,8 @@
     #artists img {
         left: 4em;
         width: 50px;
+        height: 50px;
+        object-fit: cover;
         transform: translateX(-50%) scale(1);
         animation: imgSlide 2s ease-in-out;
         z-index: 7;
@@ -1654,7 +1685,8 @@
     }
 
     @keyframes turnBack {
-        0%, 88% {
+        0%,
+        88% {
             transform: rotateY(180deg);
             visibility: hidden;
         }
@@ -1664,7 +1696,8 @@
         }
     }
     @keyframes turnFront {
-        0%, 88% {
+        0%,
+        88% {
             transform: rotateY(0deg);
             visibility: visible;
         }
@@ -1847,4 +1880,47 @@
             opacity: 0;
         }
     }
+
+    #wrapped {
+        position: relative;
+        color: var(--text-color-light);
+        background-color: var(--color-wrapped);
+        overflow-x: scroll;
+    }
+
+    #wrapper {
+        position: absolute;
+        top: 50%;
+        left: 24%;
+        transform: translateY(-50%);
+        display: flex;
+        width: 134%;
+        gap: 1em;
+    }
+
+    #wrapper img {
+        width: 14em;
+        border-radius: 8px;
+    }
+
+    .reload {
+        position: fixed;
+        left: 50%;
+        bottom: 3em;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        gap: 0.4em;
+        cursor: pointer;
+    }
+    .reload:hover {
+        text-decoration: underline;
+    }
+
+    .reload img {
+        width: 1em;
+        height: 1em;
+        transform: rotate(-104deg);
+    }
+
 </style>

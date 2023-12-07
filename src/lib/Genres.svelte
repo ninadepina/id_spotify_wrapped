@@ -194,6 +194,7 @@
     .showGenres {
         position: relative;
         height: 100%;
+        color: var(--text-color-dark);
     }
 
     .showGenres,
