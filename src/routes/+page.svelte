@@ -42,7 +42,7 @@
         3: 15000,
         4: 8000,
         5: 8000,
-        6: 7200,
+        6: 7000,
         7: 8500,
         8: 7700,
         9: 6000,
@@ -51,7 +51,6 @@
     };
 
     const setCurrentArticle = () => {
-        console.log('click');
         currentArticle = 1;
     };
 
@@ -95,22 +94,6 @@
         }
     };
 
-    let flipCard = false;
-
-    const flip = () => {
-        if (!flipCard) {
-            flipCard = true;
-        }
-    };
-
-    const autoFlipCard = () => {
-        setTimeout(() => {
-            if (!flipCard && currentArticle === 8) {
-                flip();
-            }
-        }, 6900);
-    };
-
     onMount(() => {
         interval = setInterval(() => {
             switchArticle();
@@ -128,8 +111,6 @@
 
         audio = new Audio();
         playSound();
-
-        autoFlipCard();
     });
 
     afterUpdate(() => {
@@ -440,12 +421,10 @@
                         role="button"
                         tabindex="0"
                         class="square card"
-                        on:click={flip}
-                        on:keydown={flip}
                     >
-                        <section class="cardFront" class:show={flipCard} />
-                        <p class:show={flipCard}>Tap to reveal</p>
-                        <section class="cardBack" class:show={flipCard}>
+                        <section class="cardFront" />
+                        <p>Tap to reveal</p>
+                        <section class="cardBack">
                             <img src="timetraveler.png" alt="" />
                         </section>
                     </div>
@@ -1848,6 +1827,7 @@
         overflow: hidden;
     }
     .cardFront {
+        transform: rotateY(-180deg);
         background: radial-gradient(
             205.81% 251.13% at -81.16% 173.92%,
             #e7132d 0%,
@@ -1863,18 +1843,36 @@
             #e7132d 100%
         );
         background-size: 200%;
-    }
-    .cardBack {
-        transform: rotateY(180deg);
+        animation: turnFront 6.8s linear;
         visibility: hidden;
     }
-
-    .cardFront.show {
-        transform: rotateY(-180deg);
-    }
-    .cardBack.show {
+    .cardBack {
         transform: rotateY(0deg);
+        animation: turnBack 6.8s linear;
         visibility: visible;
+    }
+
+    @keyframes turnBack {
+        0%,
+        88% {
+            transform: rotateY(180deg);
+            visibility: hidden;
+        }
+        100% {
+            transform: rotateY(0deg);
+            visibility: visible;
+        }
+    }
+    @keyframes turnFront {
+        0%,
+        88% {
+            transform: rotateY(0deg);
+            visibility: visible;
+        }
+        100% {
+            transform: rotateY(-180deg);
+            visibility: visible;
+        }
     }
 
     .card p {
@@ -1885,9 +1883,7 @@
         transition: opacity 0.5s ease-in-out;
         animation: showP 4s linear;
         opacity: 1;
-    }
-    .card p.show {
-        opacity: 0;
+        visibility: hidden;
     }
     @keyframes showP {
         0%,
