@@ -77,6 +77,19 @@
         }
     };
 
+    let audio;
+
+    const playSound = () => {
+        if (audio) {
+            audio.pause();
+            audio.currentTime = 0;
+            audio.src = `snippet-${currentArticle}.mp3`;
+            if (!isMuted) {
+                audio.play();
+            }
+        }
+    };
+
     onMount(() => {
         interval = setInterval(() => {
             switchArticle();
@@ -89,6 +102,9 @@
             forwards?.addEventListener('click', handleClickForwards);
             backwards?.addEventListener('click', handleClickBackwards);
         }
+
+        audio = new Audio();
+        playSound();
     });
 
     afterUpdate(() => {
@@ -100,6 +116,8 @@
             forwards?.addEventListener('click', handleClickForwards);
             backwards?.addEventListener('click', handleClickBackwards);
         }
+
+        playSound();
     });
 
     onDestroy(() => {
@@ -110,7 +128,11 @@
             forwards?.addEventListener('click', handleClickForwards);
             backwards?.addEventListener('click', handleClickBackwards);
         }
+
+        playSound();
     });
+
+    $: playSound();
 
     let isPlaying = false;
     let isMuted = false;
