@@ -25,70 +25,78 @@
     let backwards;
     let forwards;
 
-    let currentArticle = 7;
+    let currentArticle = 1;
     let amountArticles = 7;
     let interval;
 
-    const intervalTime = { 1: 8000, 2: 8000, 3: 15000, 4: 8000, 5: 8000, 6: 7200 };
+    const intervalTime = {
+        1: 8000,
+        2: 8000,
+        3: 15000,
+        4: 8000,
+        5: 8000,
+        6: 7200,
+        7: 8500
+    };
 
-    // const switchArticle = () => {
-    //     currentArticle = (currentArticle % amountArticles) + 1;
-    // };
+    const switchArticle = () => {
+        currentArticle = (currentArticle % amountArticles) + 1;
+    };
 
-    // const calculateInterval = () => {
-    //     return intervalTime[currentArticle] || 8000;
-    // };
+    const calculateInterval = () => {
+        return intervalTime[currentArticle] || 8000;
+    };
 
-    // const handleClickForwards = () => {
-    //     if (currentArticle < amountArticles) {
-    //         switchArticle();
-    //         clearInterval(interval);
-    //         interval = setInterval(switchArticle, calculateInterval());
-    //     }
-    // };
+    const handleClickForwards = () => {
+        if (currentArticle < amountArticles) {
+            switchArticle();
+            clearInterval(interval);
+            interval = setInterval(switchArticle, calculateInterval());
+        }
+    };
 
-    // const handleClickBackwards = () => {
-    //     if (currentArticle > 1) {
-    //         currentArticle = ((currentArticle - 2 + 3) % 3) + 1;
-    //         clearInterval(interval);
-    //         interval = setInterval(switchArticle, calculateInterval());
-    //     }
-    // };
+    const handleClickBackwards = () => {
+        if (currentArticle > 1) {
+            currentArticle = ((currentArticle - 2 + 3) % 3) + 1;
+            clearInterval(interval);
+            interval = setInterval(switchArticle, calculateInterval());
+        }
+    };
 
-    // onMount(() => {
-    //     interval = setInterval(() => {
-    //         switchArticle();
-    //         clearInterval(interval);
-    //         interval = setInterval(switchArticle, calculateInterval());
-    //     }, calculateInterval());
+    onMount(() => {
+        interval = setInterval(() => {
+            switchArticle();
+            clearInterval(interval);
+            interval = setInterval(switchArticle, calculateInterval());
+        }, calculateInterval());
 
-    //     if (main) {
-    //         main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
-    //         forwards.addEventListener('click', handleClickForwards);
-    //         backwards.addEventListener('click', handleClickBackwards);
-    //     }
-    // });
+        if (main) {
+            main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
+            forwards.addEventListener('click', handleClickForwards);
+            backwards.addEventListener('click', handleClickBackwards);
+        }
+    });
 
-    // afterUpdate(() => {
-    //     clearInterval(interval);
-    //     interval = setInterval(switchArticle, calculateInterval());
+    afterUpdate(() => {
+        clearInterval(interval);
+        interval = setInterval(switchArticle, calculateInterval());
 
-    //     if (main) {
-    //         main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
-    //         forwards.addEventListener('click', handleClickForwards);
-    //         backwards.addEventListener('click', handleClickBackwards);
-    //     }
-    // });
+        if (main) {
+            main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
+            forwards.addEventListener('click', handleClickForwards);
+            backwards.addEventListener('click', handleClickBackwards);
+        }
+    });
 
-    // onDestroy(() => {
-    //     clearInterval(interval);
+    onDestroy(() => {
+        clearInterval(interval);
 
-    //     if (main) {
-    //         main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
-    //         forwards.addEventListener('click', handleClickForwards);
-    //         backwards.addEventListener('click', handleClickBackwards);
-    //     }
-    // });
+        if (main) {
+            main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
+            forwards.addEventListener('click', handleClickForwards);
+            backwards.addEventListener('click', handleClickBackwards);
+        }
+    });
 
     let isPlaying = false;
     let isMuted = false;
@@ -238,7 +246,7 @@
                     <h3>Time is a construct, but we kept track anyway</h3>
                 </div>
                 <div>
-                    <h3>You all listened for xxxxxxxx minutes.</h3>
+                    <h3>We listened for xxxxxxxx minutes.</h3>
                     <p>That's <strong>xxx</strong> days nonstop.</p>
                 </div>
             </article>
@@ -292,7 +300,9 @@
             <article id="waiting" key="waiting">
                 <span class="color">
                     {#each Array(numberOfSpans) as _, index (index)}
-                        <span style={`--animation-time: ${2.5 - index * 0.05}s;`} />
+                        <span
+                            style={`--animation-time: ${2.5 - index * 0.05}s;`}
+                        />
                     {/each}
                 </span>
 
@@ -305,9 +315,29 @@
 
         {#if currentArticle === 7}
             <article id="hero" key="hero">
-                <span class="star">
-
+                <span class="line3">
+                    <img src="line2.png" alt="">
                 </span>
+                <span class="rect" />
+                <span class="star">
+                    <svg viewBox="0 0 973 1118" fill="none">
+                        <path
+                            d="M242.5 1082.5L561 855.5L35 542L561 624L397 64L764 513L884.5 35L937.5 305"
+                            stroke="white"
+                            stroke-width="70"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+                    </svg>
+                </span>
+
+                <div>
+                    <h3>That's better</h3>
+                </div>
+                <div>
+                    <h3>The way we listened this year makes us heroes</h3>
+                    <p>Or maybe we should say... anti-heroes?</p>
+                </div>
             </article>
         {/if}
     </section>
@@ -483,6 +513,29 @@
         }
     }
 
+    .line3 {
+        top: -8%;
+        left: -8%;
+        opacity: 0.8;
+        animation: line3 8.5s linear;
+    }
+
+    .line3 img {
+        width: 16em;
+    }
+
+    @keyframes line3 {
+        0%, 44% {
+            opacity: 0;
+        }
+        50%, 92% {
+            opacity: 0.8;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+
     /* amoebe */
     .amoebe {
         top: -10%;
@@ -532,6 +585,45 @@
     @keyframes removePathFlower {
         to {
             stroke-dashoffset: 6700;
+        }
+    }
+
+    .rect {
+        position: absolute;
+        top: 0;
+        right: -50px;
+        width: 50px;
+        height: 150px;
+        background: rgb(255, 255, 255);
+        background: linear-gradient(
+            227deg,
+            #3048F9,
+            #52FCCA,
+            #D1F66B,
+            #3048F9,
+            #52FCCA,
+            #D1F66B
+        );
+        background-size: 1000% 1000%;
+        animation: gradient 4s linear;
+    }
+    #hero .rect {
+        animation-delay: 3.6s;
+    }
+    @keyframes gradient {
+        0% {
+            right: -50px;
+            background-position: 100% 50%;
+        }
+        5%,
+        95% {
+            top: 0;
+            right: 0;
+        }
+        100% {
+            top: -150px;
+            right: 0;
+            background-position: 0% 50%;
         }
     }
 
@@ -1071,20 +1163,22 @@
 
     #waiting {
         position: relative;
-        background: rgb(219,182,4);
+        background: rgb(219, 182, 4);
         background: var(--color-waiting);
         background-size: 300%;
         animation: moveBg 2.9s ease-in-out;
         animation-delay: 4.3s;
     }
     @keyframes moveBg {
-        0%, 30% {
+        0%,
+        30% {
             background-position: left;
         }
         50% {
             background-position: center;
         }
-        70%, 100% {
+        70%,
+        100% {
             background-position: right;
         }
     }
@@ -1148,6 +1242,131 @@
         100% {
             top: 25%;
             opacity: 0;
+        }
+    }
+
+    #hero {
+        position: relative;
+        background-color: var(--color-hero);
+    }
+
+    #hero h3,
+    #hero > div:last-of-type p {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        color: var(--text-color-light);
+    }
+
+    #hero h3 {
+        top: 16%;
+        width: 300px;
+        font-size: 1.8em;
+        line-height: 1em;
+        text-align: center;
+    }
+
+    #hero > div:first-of-type h3 {
+        width: 350px;
+        animation: slideHeroHeadingThree 3.5s ease-in-out;
+    }
+
+    #hero > div:last-of-type h3 {
+        animation: slideHeroHeadingThree2 4.5s ease-in-out;
+        animation-delay: 3.3s;
+    }
+
+    #hero > div:last-of-type p {
+        top: 20%;
+        font-size: 1em;
+        text-align: center;
+        white-space: nowrap;
+        animation: slideHeroOther 3.5s ease-in-out;
+        animation-delay: 4.3s;
+    }
+
+    @keyframes slideHeroHeadingThree {
+        0% {
+            top: 70%;
+            opacity: 0;
+        }
+        20%,
+        80% {
+            top: 45%;
+            opacity: 1;
+        }
+        100% {
+            top: 16%;
+            opacity: 0;
+        }
+    }
+    @keyframes slideHeroHeadingThree2 {
+        0% {
+            top: 70%;
+            opacity: 0;
+        }
+        20% {
+            top: 44%;
+            opacity: 1;
+        }
+        40%,
+        80% {
+            top: 36%;
+            opacity: 1;
+        }
+        100% {
+            top: 16%;
+            opacity: 0;
+        }
+    }
+    @keyframes slideHeroOther {
+        0% {
+            top: 75%;
+            opacity: 0;
+        }
+        20%,
+        80% {
+            top: 53%;
+            opacity: 1;
+        }
+        100% {
+            top: 25%;
+            opacity: 0;
+        }
+    }
+
+    .star {
+        right: -3%;
+        bottom: -3%;
+    }
+
+    .star svg {
+        width: 12em;
+    }
+
+    .star svg path {
+        stroke-dasharray: 6700;
+        stroke-dashoffset: 0;
+
+        animation-name: drawPathStar, removePathStar;
+        animation-duration: 6s, 2s;
+        animation-delay: 0s, 6.5s;
+        animation-timing-function: forwards, forwards;
+    }
+
+    @keyframes drawPathStar {
+        0%,
+        60% {
+            stroke-dashoffset: 6700;
+        }
+        100% {
+            stroke-dashoffset: 0;
+        }
+    }
+    @keyframes removePathStar {
+        to {
+            stroke-dashoffset: 6700;
         }
     }
 </style>
