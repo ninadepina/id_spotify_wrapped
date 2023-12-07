@@ -32,7 +32,7 @@
     let backwards;
     let forwards;
 
-    let currentArticle = 1;
+    let currentArticle;
     let amountArticles = 11;
     let interval;
 
@@ -48,6 +48,11 @@
         9: 6000,
         10: 4500,
         11: 8000
+    };
+
+    const setCurrentArticle = () => {
+        console.log('click');
+        currentArticle = 1;
     };
 
     const switchArticle = () => {
@@ -80,7 +85,7 @@
     let audio;
 
     const playSound = () => {
-        if (audio) {
+        if (audio && currentArticle > 0) {
             audio.pause();
             audio.currentTime = 0;
             audio.src = `snippet-${currentArticle}.mp3`;
@@ -88,6 +93,22 @@
                 audio.play();
             }
         }
+    };
+
+    let flipCard = false;
+
+    const flip = () => {
+        if (!flipCard) {
+            flipCard = true;
+        }
+    };
+
+    const autoFlipCard = () => {
+        setTimeout(() => {
+            if (!flipCard && currentArticle === 8) {
+                flip();
+            }
+        }, 6900);
     };
 
     onMount(() => {
@@ -98,13 +119,17 @@
         }, calculateInterval());
 
         if (main) {
-            main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
+            main.style.backgroundColor = currentArticle
+                ? `var(${articleColors[currentArticle]})`
+                : `var(--color-hello)`;
             forwards?.addEventListener('click', handleClickForwards);
             backwards?.addEventListener('click', handleClickBackwards);
         }
 
         audio = new Audio();
         playSound();
+
+        autoFlipCard();
     });
 
     afterUpdate(() => {
@@ -152,7 +177,7 @@
 </svelte:head>
 
 <main bind:this={main}>
-    {#if currentArticle !== 11}
+    {#if currentArticle && currentArticle !== 11}
         <div id="clicker">
             <div id="backwards" bind:this={backwards} />
             <div id="forwards" bind:this={forwards} />
@@ -160,35 +185,48 @@
     {/if}
 
     <section id="wrapped">
-        <header>
-            <div id="counter">
-                {#each Array(amountArticles) as _, index (index)}
-                    <span
-                        style={`--interval-time: ${intervalTime[index + 1]}ms;`}
-                        class:active={currentArticle === index + 1}
-                        class:visible={currentArticle > index + 1 ||
-                            currentArticle === 11}
-                    />
-                {/each}
-            </div>
-            <div id="info">
-                <img src="spotify2.png" alt="" />
-                <div>
-                    <button on:click={togglePlay}>
-                        <img
-                            src={isPlaying ? 'play.png' : 'pause.png'}
-                            alt="play icon"
+        {#if currentArticle}
+            <header>
+                <div id="counter">
+                    {#each Array(amountArticles) as _, index (index)}
+                        <span
+                            style={`--interval-time: ${
+                                intervalTime[index + 1]
+                            }ms;`}
+                            class:active={currentArticle === index + 1}
+                            class:visible={currentArticle > index + 1 ||
+                                currentArticle === 11}
                         />
-                    </button>
-                    <button on:click={toggleMute}>
-                        <img
-                            src={isMuted ? 'mute.png' : 'sound.png'}
-                            alt="sound icon"
-                        />
-                    </button>
+                    {/each}
                 </div>
-            </div>
-        </header>
+                <div id="info">
+                    <img src="spotify2.png" alt="" />
+                    <div>
+                        <button on:click={togglePlay}>
+                            <img
+                                src={isPlaying ? 'play.png' : 'pause.png'}
+                                alt="play icon"
+                            />
+                        </button>
+                        <button on:click={toggleMute}>
+                            <img
+                                src={isMuted ? 'mute.png' : 'sound.png'}
+                                alt="sound icon"
+                            />
+                        </button>
+                    </div>
+                </div>
+            </header>
+        {/if}
+
+        {#if !currentArticle}
+            <article id="hello" key="hello">
+                <h1>Spotify Wrapped <span>dataweek students</span></h1>
+                <div on:click={setCurrentArticle}>
+                    <img src="wrappedblur.png" alt="" />
+                </div>
+            </article>
+        {/if}
 
         {#if currentArticle === 1}
             <article id="intro" key="intro">
@@ -402,10 +440,12 @@
                         role="button"
                         tabindex="0"
                         class="square card"
+                        on:click={flip}
+                        on:keydown={flip}
                     >
-                        <section class="cardFront" />
-                        <p>Tap to reveal</p>
-                        <section class="cardBack">
+                        <section class="cardFront" class:show={flipCard} />
+                        <p class:show={flipCard}>Tap to reveal</p>
+                        <section class="cardBack" class:show={flipCard}>
                             <img src="timetraveler.png" alt="" />
                         </section>
                     </div>
@@ -605,6 +645,91 @@
         position: absolute;
     }
 
+    #hello {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 2em;
+        align-items: center;
+        color: var(--text-color-light);
+        background-color: var(--color-hello);
+    }
+
+    #hello svg {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: scale(2);
+        z-index: 1;
+        opacity: 0.05;
+    }
+
+    #hello h1 {
+        width: 250px;
+        font-size: 1.6em;
+        text-align: center;
+        line-height: 1em;
+        z-index: 1;
+    }
+    #hello h1 span {
+        font-size: 0.9em;
+        font-weight: 400;
+    }
+
+    #hello div {
+        position: relative;
+        width: 14em;
+        transform: scale(1);
+        transition: transform 1s ease;
+        z-index: 1;
+        cursor: pointer;
+    }
+    #hello div img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+    #hello div::before,
+    #hello div::after {
+        content: '';
+        position: absolute;
+        border-radius: 8px;
+        z-index: 2;
+    }
+    #hello div::before {
+        content: "Let's find out how we listened this year!";
+        top: 50%;
+        left: 50%;
+        width: 80%;
+        padding: 1em;
+        text-align: center;
+        background-color: var(--color-hello);
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: opacity 1s ease-out;
+        z-index: 3;
+    }
+    #hello div::after {
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.01);
+        transition: background-color 1s ease;
+    }
+
+    #hello div:hover {
+        transform: scale(1.1);
+        transition: transform 1s ease;
+    }
+    #hello div:hover::before {
+        opacity: 1;
+        transition: opacity 1s ease-in;
+        transition-delay: 0.2s;
+    }
+    #hello div:hover::after {
+        background-color: rgba(0, 0, 0, 0.6);
+        transition: background-color 1s ease;
+    }
     #intro {
         position: relative;
         color: var(--text-color-dark);
@@ -1723,7 +1848,6 @@
         overflow: hidden;
     }
     .cardFront {
-        transform: rotateY(-180deg);
         background: radial-gradient(
             205.81% 251.13% at -81.16% 173.92%,
             #e7132d 0%,
@@ -1739,36 +1863,18 @@
             #e7132d 100%
         );
         background-size: 200%;
-        animation: turnFront 6.8s linear;
-        visibility: hidden;
     }
     .cardBack {
-        transform: rotateY(0deg);
-        animation: turnBack 6.8s linear;
-        visibility: visible;
+        transform: rotateY(180deg);
+        visibility: hidden;
     }
 
-    @keyframes turnBack {
-        0%,
-        88% {
-            transform: rotateY(180deg);
-            visibility: hidden;
-        }
-        100% {
-            transform: rotateY(0deg);
-            visibility: visible;
-        }
+    .cardFront.show {
+        transform: rotateY(-180deg);
     }
-    @keyframes turnFront {
-        0%,
-        88% {
-            transform: rotateY(0deg);
-            visibility: visible;
-        }
-        100% {
-            transform: rotateY(-180deg);
-            visibility: visible;
-        }
+    .cardBack.show {
+        transform: rotateY(0deg);
+        visibility: visible;
     }
 
     .card p {
@@ -1779,7 +1885,9 @@
         transition: opacity 0.5s ease-in-out;
         animation: showP 4s linear;
         opacity: 1;
-        visibility: hidden;
+    }
+    .card p.show {
+        opacity: 0;
     }
     @keyframes showP {
         0%,
