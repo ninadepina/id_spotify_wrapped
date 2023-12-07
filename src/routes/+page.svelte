@@ -268,7 +268,7 @@
                     <h3>Time is a construct, but we kept track anyway</h3>
                 </div>
                 <div>
-                    <h3>We listened for {minutes.total.minutes} minutes.</h3>
+                    <h3>We listened for {minutes.total.min} minutes.</h3>
                     <p>
                         With an average of {minutes.average.min} minutes (that's
                         <strong>{minutes.average.days}</strong> days nonstop)
@@ -279,6 +279,12 @@
 
         {#if currentArticle === 5}
             <article id="artists" key="artists">
+                <span class="bobble">
+                    <img src="bobble.png" alt="" />
+                </span>
+                <span class="flower2">
+                    <img src="flower.png" alt="" />
+                </span>
                 <span class="line2">
                     <svg viewBox="0 0 1695 593" fill="none">
                         <path
@@ -658,6 +664,37 @@
         }
         100% {
             opacity: 0;
+        }
+    }
+
+    .bobble {
+        top: -2%;
+        right: -6%;
+        width: 17em;
+    }
+
+    .bobble img {
+        width: 100%;
+    }
+
+    .flower2 {
+        left: -55%;
+        bottom: -35%;
+        width: 25em;
+        transform: skew(-30deg);
+        animation: spin 12s linear infinite;
+    }
+
+    .flower2 img {
+        width: 100%;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: skew(-30deg) rotate(0deg);
+        }
+        100% {
+            transform: skew(-30deg) rotate(360deg);
         }
     }
 
@@ -1057,7 +1094,6 @@
         transform: translate(-50%, -50%);
         width: 340px;
         font-size: 2.4em;
-        font-weight: 500;
         text-align: center;
         line-height: 42px;
         color: var(--text-color-light);
@@ -1303,7 +1339,7 @@
         }
     }
 
-    #artists img {
+    #artists ol img {
         left: 4em;
         width: 50px;
         height: 50px;
