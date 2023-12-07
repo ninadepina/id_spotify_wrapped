@@ -1929,9 +1929,6 @@
         white-space: nowrap;
         cursor: pointer;
     }
-    .reload:hover {
-        text-decoration: underline;
-    }
 
     .reload img {
         width: 1em;
