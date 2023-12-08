@@ -32,7 +32,7 @@
     let backwards;
     let forwards;
 
-    let currentArticle;
+    let currentArticle = 1;
     let amountArticles = 11;
     let interval;
 
@@ -42,16 +42,12 @@
         3: 15000,
         4: 8000,
         5: 8000,
-        6: 7000,
+        6: 7200,
         7: 8500,
         8: 7700,
         9: 6000,
         10: 4500,
         11: 8000
-    };
-
-    const setCurrentArticle = () => {
-        currentArticle = 1;
     };
 
     const switchArticle = () => {
@@ -84,7 +80,7 @@
     let audio;
 
     const playSound = () => {
-        if (audio && currentArticle > 0) {
+        if (audio) {
             audio.pause();
             audio.currentTime = 0;
             audio.src = `snippet-${currentArticle}.mp3`;
@@ -102,9 +98,7 @@
         }, calculateInterval());
 
         if (main) {
-            main.style.backgroundColor = currentArticle
-                ? `var(${articleColors[currentArticle]})`
-                : `var(--color-hello)`;
+            main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
             forwards?.addEventListener('click', handleClickForwards);
             backwards?.addEventListener('click', handleClickBackwards);
         }
@@ -114,6 +108,9 @@
     });
 
     afterUpdate(() => {
+        clearInterval(interval);
+        interval = setInterval(switchArticle, calculateInterval());
+
         if (main) {
             main.style.backgroundColor = `var(${articleColors[currentArticle]})`;
             forwards?.addEventListener('click', handleClickForwards);
@@ -147,10 +144,6 @@
     const toggleMute = () => {
         isMuted = !isMuted;
     };
-
-    const reset = () => {
-        currentArticle = 1;
-    };
 </script>
 
 <svelte:head>
@@ -158,7 +151,7 @@
 </svelte:head>
 
 <main bind:this={main}>
-    {#if currentArticle && currentArticle !== 11}
+    {#if currentArticle !== 11}
         <div id="clicker">
             <div id="backwards" bind:this={backwards} />
             <div id="forwards" bind:this={forwards} />
@@ -166,56 +159,35 @@
     {/if}
 
     <section id="wrapped">
-        {#if currentArticle}
-            <header>
-                <div id="counter">
-                    {#each Array(amountArticles) as _, index (index)}
-                        <span
-                            style={`--interval-time: ${
-                                intervalTime[index + 1]
-                            }ms;`}
-                            class:active={currentArticle === index + 1}
-                            class:visible={currentArticle > index + 1 ||
-                                currentArticle === 11}
-                        />
-                    {/each}
-                </div>
-                <div id="info">
-                    <img src="spotify2.png" alt="" />
-                    <div>
-                        <button on:click={togglePlay}>
-                            <img
-                                src={isPlaying ? 'play.png' : 'pause.png'}
-                                alt="play icon"
-                            />
-                        </button>
-                        <button on:click={toggleMute}>
-                            <img
-                                src={isMuted ? 'mute.png' : 'sound.png'}
-                                alt="sound icon"
-                            />
-                        </button>
-                    </div>
-                </div>
-            </header>
-        {/if}
-
-        {#if !currentArticle}
-            <article id="hello" key="hello">
-                <h1>Spotify Wrapped <span>dataweek students</span></h1>
+        <header>
+            <div id="counter">
+                {#each Array(amountArticles) as _, index (index)}
+                    <span
+                        style={`--interval-time: ${intervalTime[index + 1]}ms;`}
+                        class:active={currentArticle === index + 1}
+                        class:visible={currentArticle > index + 1 ||
+                            currentArticle === 11}
+                    />
+                {/each}
+            </div>
+            <div id="info">
+                <img src="spotify2.png" alt="" />
                 <div>
-                    <span>
-                        <p>click to reveal</p>
-                    </span>
-                    <div on:click={setCurrentArticle}>
-                        <img src="wrappedblur.png" alt="" />
-                    </div>
-                    <span>
-                        <p>click to reveal</p>
-                    </span>
+                    <button on:click={togglePlay}>
+                        <img
+                            src={isPlaying ? 'play.png' : 'pause.png'}
+                            alt="play icon"
+                        />
+                    </button>
+                    <button on:click={toggleMute}>
+                        <img
+                            src={isMuted ? 'mute.png' : 'sound.png'}
+                            alt="sound icon"
+                        />
+                    </button>
                 </div>
-            </article>
-        {/if}
+            </div>
+        </header>
 
         {#if currentArticle === 1}
             <article id="intro" key="intro">
@@ -492,10 +464,10 @@
                     <img src="wrapped1.png" alt="" />
                     <img src="wrapped2.png" alt="" />
                 </div>
-                <p class="reload" on:click={reset} on:keydown={reset}>
+                <!-- <p class="reload" on:click={reset} on:keydown={reset}>
                     <img style="width: 1em;" src="reload.png" alt="" />
                     Replay from beginning
-                </p>
+                </p> -->
             </article>
         {/if}
     </section>
@@ -584,7 +556,6 @@
         background-color: #0d0020a8;
         border: none;
         border-radius: 50%;
-        z-index: 999999;
     }
 
     header button img {
@@ -630,120 +601,6 @@
 
     article > span {
         position: absolute;
-    }
-
-    #hello {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 2em;
-        align-items: center;
-        color: var(--text-color-light);
-        background-color: var(--color-hello);
-    }
-
-    #hello h1 {
-        width: 250px;
-        font-size: 1.6em;
-        text-align: center;
-        line-height: 1em;
-        z-index: 1;
-    }
-    #hello h1 span {
-        font-size: 0.9em;
-        font-weight: 400;
-    }
-
-    #hello > div {
-        position: relative;
-        display: flex;
-    }
-
-    #hello > div span:first-of-type {
-        align-self: flex-start;
-        margin-top: 6.6em;
-    }
-    #hello > div span:last-of-type {
-        align-self: center;
-        margin-top: 10.8em;
-    }
-
-    #hello > div span p {
-        width: 1.8em;
-        font-size: 0.8em;
-        text-transform: uppercase;
-        white-space: nowrap;
-        transition: opacity 0.5s ease;
-        opacity: 1;
-    }
-    #hello > div span:first-of-type p {
-        transform: rotate(-90deg);
-    }
-    #hello > div span:last-of-type p {
-        transform: rotate(90deg);
-    }
-
-    #hello > div > div {
-        position: relative;
-        width: 14em;
-        transform: scale(1);
-        transition: transform 1s ease;
-        z-index: 1;
-        cursor: pointer;
-    }
-    #hello > div > div img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 8px;
-    }
-
-    @media screen and (min-width: 1000px) {
-        #hello > div > div::before,
-        #hello > div > div::after {
-            content: '';
-            position: absolute;
-            border-radius: 8px;
-            z-index: 2;
-        }
-        #hello > div > div::before {
-            content: "Let's find out how we listened this year!";
-            top: 50%;
-            left: 50%;
-            width: 80%;
-            padding: 1em;
-            text-align: center;
-            background-color: var(--color-hello);
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            transition: opacity 1s ease-out;
-            z-index: 3;
-        }
-        #hello > div > div::after {
-            inset: 0;
-            background-color: rgba(0, 0, 0, 0.01);
-            transition: background-color 1s ease;
-        }
-
-        #hello > div > div:hover {
-            transform: scale(1.1);
-            transition: transform 1s ease;
-        }
-        #hello > div > div:hover::before {
-            opacity: 1;
-            transition: opacity 1s ease-in;
-            transition-delay: 0.2s;
-        }
-        #hello > div > div:hover::after {
-            background-color: rgba(0, 0, 0, 0.6);
-            transition: background-color 1s ease;
-        }
-
-        #hello > div:has(:hover) p {
-            transition: opacity 0.5s ease;
-            opacity: 0;
-        }
     }
 
     #intro {
