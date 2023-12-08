@@ -203,8 +203,16 @@
         {#if !currentArticle}
             <article id="hello" key="hello">
                 <h1>Spotify Wrapped <span>dataweek students</span></h1>
-                <div on:click={setCurrentArticle}>
-                    <img src="wrappedblur.png" alt="" />
+                <div>
+                    <span>
+                        <p>click to reveal</p>
+                    </span>
+                    <div on:click={setCurrentArticle}>
+                        <img src="wrappedblur.png" alt="" />
+                    </div>
+                    <span>
+                        <p>click to reveal</p>
+                    </span>
                 </div>
             </article>
         {/if}
@@ -635,15 +643,6 @@
         background-color: var(--color-hello);
     }
 
-    #hello svg {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: scale(2);
-        z-index: 1;
-        opacity: 0.05;
-    }
-
     #hello h1 {
         width: 250px;
         font-size: 1.6em;
@@ -656,7 +655,34 @@
         font-weight: 400;
     }
 
-    #hello div {
+    #hello > div {
+        position: relative;
+        display: flex;
+    }
+
+    #hello > div span:first-of-type {
+        align-self: flex-start;
+        margin-top: 6.6em;
+    }
+    #hello > div span:last-of-type {
+        align-self: center;
+        margin-top: 10.8em;
+    }
+
+    #hello > div span p {
+        width: 1.8em;
+        font-size: 0.8em;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+    #hello > div span:first-of-type p {
+        transform: rotate(-90deg);
+    }
+    #hello > div span:last-of-type p {
+        transform: rotate(90deg);
+    }
+
+    #hello > div > div {
         position: relative;
         width: 14em;
         transform: scale(1);
@@ -664,51 +690,55 @@
         z-index: 1;
         cursor: pointer;
     }
-    #hello div img {
+    #hello > div > div img {
         width: 100%;
         height: 100%;
         object-fit: cover;
         border-radius: 8px;
     }
-    #hello div::before,
-    #hello div::after {
-        content: '';
-        position: absolute;
-        border-radius: 8px;
-        z-index: 2;
-    }
-    #hello div::before {
-        content: "Let's find out how we listened this year!";
-        top: 50%;
-        left: 50%;
-        width: 80%;
-        padding: 1em;
-        text-align: center;
-        background-color: var(--color-hello);
-        transform: translate(-50%, -50%);
-        opacity: 0;
-        transition: opacity 1s ease-out;
-        z-index: 3;
-    }
-    #hello div::after {
-        inset: 0;
-        background-color: rgba(0, 0, 0, 0.01);
-        transition: background-color 1s ease;
+
+    @media screen and (min-width: 1000px) {
+        #hello > div > div::before,
+        #hello > div > div::after {
+            content: '';
+            position: absolute;
+            border-radius: 8px;
+            z-index: 2;
+        }
+        #hello > div > div::before {
+            content: "Let's find out how we listened this year!";
+            top: 50%;
+            left: 50%;
+            width: 80%;
+            padding: 1em;
+            text-align: center;
+            background-color: var(--color-hello);
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 1s ease-out;
+            z-index: 3;
+        }
+        #hello > div > div::after {
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.01);
+            transition: background-color 1s ease;
+        }
+
+        #hello > div > div:hover {
+            transform: scale(1.1);
+            transition: transform 1s ease;
+        }
+        #hello > div > div:hover::before {
+            opacity: 1;
+            transition: opacity 1s ease-in;
+            transition-delay: 0.2s;
+        }
+        #hello > div > div:hover::after {
+            background-color: rgba(0, 0, 0, 0.6);
+            transition: background-color 1s ease;
+        }
     }
 
-    #hello div:hover {
-        transform: scale(1.1);
-        transition: transform 1s ease;
-    }
-    #hello div:hover::before {
-        opacity: 1;
-        transition: opacity 1s ease-in;
-        transition-delay: 0.2s;
-    }
-    #hello div:hover::after {
-        background-color: rgba(0, 0, 0, 0.6);
-        transition: background-color 1s ease;
-    }
     #intro {
         position: relative;
         color: var(--text-color-dark);
