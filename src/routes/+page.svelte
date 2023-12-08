@@ -134,16 +134,16 @@
 
     $: playSound();
 
-    let isPlaying = false;
+    // let isPlaying = false;
     let isMuted = false;
 
-    const togglePlay = () => {
-        isPlaying = !isPlaying;
-    };
+    // const togglePlay = () => {
+    //     isPlaying = !isPlaying;
+    // };
 
-    const toggleMute = () => {
-        isMuted = !isMuted;
-    };
+    // const toggleMute = () => {
+    //     isMuted = !isMuted;
+    // };
 </script>
 
 <svelte:head>
@@ -173,18 +173,18 @@
             <div id="info">
                 <img src="spotify2.png" alt="" />
                 <div>
-                    <button on:click={togglePlay}>
+                    <!-- <button on:click={togglePlay}>
                         <img
                             src={isPlaying ? 'play.png' : 'pause.png'}
                             alt="play icon"
                         />
-                    </button>
-                    <button on:click={toggleMute}>
+                    </button> -->
+                    <!-- <button on:click={toggleMute}>
                         <img
                             src={isMuted ? 'mute.png' : 'sound.png'}
                             alt="sound icon"
                         />
-                    </button>
+                    </button> -->
                 </div>
             </div>
         </header>
