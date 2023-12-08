@@ -421,7 +421,7 @@
                     <h3>Time Traveler</h3>
                     <p>
                         Have we met before? You travel back in time and listen
-                        to songs on repeat, again an again. The best tracks
+                        to songs on repeat, again and again. The best tracks
                         never get old.
                     </p>
                 </div>
