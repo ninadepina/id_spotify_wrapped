@@ -674,6 +674,8 @@
         font-size: 0.8em;
         text-transform: uppercase;
         white-space: nowrap;
+        transition: opacity 0.5s ease;
+        opacity: 1;
     }
     #hello > div span:first-of-type p {
         transform: rotate(-90deg);
@@ -736,6 +738,11 @@
         #hello > div > div:hover::after {
             background-color: rgba(0, 0, 0, 0.6);
             transition: background-color 1s ease;
+        }
+
+        #hello > div:has(:hover) p {
+            transition: opacity 0.5s ease;
+            opacity: 0;
         }
     }
 
